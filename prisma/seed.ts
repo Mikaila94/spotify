@@ -102,9 +102,9 @@ async function main() {
 
   const s2 = await prisma.song.create({
     data: {
-      name: "Static Bloom",
-      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-      durationMs: 372_715,
+      name: "Echoes of Silence",
+      url: "/audio/3-09 Echoes Of Silence.m4a",
+      durationMs: 240_040,
       trackNumber: 2,
       discNumber: 1,
       album: { connect: { id: albumMidnight.id } },
