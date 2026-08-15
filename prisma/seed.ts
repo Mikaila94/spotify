@@ -34,7 +34,7 @@ async function main() {
   const artists = await prisma.artist.findMany({
     where: { name: { in: artistNames } },
   });
-  //@ts-ignore
+
   const artistByName = Object.fromEntries(artists.map((a) => [a.name, a]));
 
   // ---------------------------------------------------------------------------
@@ -92,8 +92,8 @@ async function main() {
   const s1 = await prisma.song.create({
     data: {
       name: "Hollow Lights",
-      url: "https://cdn.example.com/audio/aurora-grey/hollow-lights.mp3",
-      durationMs: 215_000,
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      durationMs: 372_715,
       trackNumber: 1,
       discNumber: 1,
       album: { connect: { id: albumMidnight.id } },
@@ -103,8 +103,8 @@ async function main() {
   const s2 = await prisma.song.create({
     data: {
       name: "Static Bloom",
-      url: "https://cdn.example.com/audio/aurora-grey/static-bloom.mp3",
-      durationMs: 198_000,
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      durationMs: 372_715,
       trackNumber: 2,
       discNumber: 1,
       album: { connect: { id: albumMidnight.id } },
@@ -114,8 +114,8 @@ async function main() {
   const s3 = await prisma.song.create({
     data: {
       name: "Chromatic Run",
-      url: "https://cdn.example.com/audio/neon-harbor/chromatic-run.mp3",
-      durationMs: 242_000,
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+      durationMs: 344_085,
       trackNumber: 3,
       discNumber: 1,
       album: { connect: { id: albumCityCircuit.id } },
@@ -125,8 +125,8 @@ async function main() {
   const s4 = await prisma.song.create({
     data: {
       name: "Transit Lines",
-      url: "https://cdn.example.com/audio/neon-harbor/transit-lines.mp3",
-      durationMs: 231_000,
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+      durationMs: 302_524,
       trackNumber: 5,
       discNumber: 1,
       album: { connect: { id: albumCityCircuit.id } },
@@ -136,11 +136,12 @@ async function main() {
   const s5 = await prisma.song.create({
     data: {
       name: "Cold Start",
-      url: "https://cdn.example.com/audio/kairo-bloom/cold-start.mp3",
-      durationMs: 187_000,
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+      durationMs: 353_959,
       // single, no album on purpose
     },
   });
+
 
   // ---------------------------------------------------------------------------
   // 5) Users (hash the password)

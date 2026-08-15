@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       select: { id: true, email: true, firstName: true, lastName: true },
     });
   } catch (err) {
+    console.error("Error creating user:", err);
     return NextResponse.json(
       { error: "Failed to create user, user might already exist" },
       { status: 409 }

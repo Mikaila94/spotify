@@ -3,6 +3,7 @@ import "./globals.css";
 import { Provider } from "@/components/ui/provider";
 import PlayerLayout from "@/components/PlayerLayout/PlayerLayout";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 
 const SIDEBAR_W = "250px";
 const PLAYER_H = "88px"; // keep in sync with your PlayerLayout's actual height
@@ -14,8 +15,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Provider>
-          {/* Fixed Sidebar */}
-          <Box
+          <MusicPlayerProvider>
+            {/* Fixed Sidebar */}
+            <Box
             as="aside"
             position="fixed"
             left={0}
@@ -62,6 +64,7 @@ export default function RootLayout({
           >
             {children}
           </Box>
+          </MusicPlayerProvider>
         </Provider>
       </body>
     </html>
