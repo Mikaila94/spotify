@@ -9,7 +9,6 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { useAnimationFrame } from "@/lib/useAnimationFrame";
 import { SongDTO } from "@/types/song";
 
 
@@ -17,7 +16,6 @@ import { SongDTO } from "@/types/song";
 interface MusicPlayerContextType {
   currentSong: SongDTO | null;
   isPlaying: boolean;
-  currentTime: number;
   audioRef: React.RefObject<HTMLAudioElement | null>;
   setCurrentSong: (song: SongDTO) => void;
   togglePlayPause: () => void;
@@ -48,19 +46,6 @@ const useAudioElement = () => {
   }, []);
 
   return audioRef;
-};
-
-// Custom hook: sync current time from audio element
-const useTimeSync = (
-  audioRef: React.RefObject<HTMLAudioElement | null>,
-  isPlaying: boolean,
-  setCurrentTime: (time: number) => void
-) => {
-  useAnimationFrame(() => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  }, isPlaying);
 };
 
 // Custom hook: handles audio playback logic
@@ -122,10 +107,8 @@ const useAudioPlayback = (
 export function MusicPlayerProvider({ children }: { children: ReactNode }) {
   const [currentSong, setCurrentSong] = useState<SongDTO | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
   
   const audioRef = useAudioElement();
-  useTimeSync(audioRef, isPlaying, setCurrentTime);
 
   // Handle playback errors
   const handlePlaybackError = useCallback(() => setIsPlaying(false), []);
@@ -160,7 +143,6 @@ export function MusicPlayerProvider({ children }: { children: ReactNode }) {
   const seek = (time: number) => {
     if (audioRef.current) {
       audioRef.current.currentTime = time;
-      setCurrentTime(time); // Immediately update state for visual feedback
     }
   };
 
@@ -169,7 +151,6 @@ export function MusicPlayerProvider({ children }: { children: ReactNode }) {
       value={{
         currentSong,
         isPlaying,
-        currentTime,
         audioRef,
         setCurrentSong: handleSetCurrentSong,
         togglePlayPause,

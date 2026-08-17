@@ -3,6 +3,7 @@
 import { Box, Flex, Button, Text, Stack } from "@chakra-ui/react";
 import { FaPlay, FaPause, FaVolumeUp } from "react-icons/fa";
 import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
+import { useAnimationFrame } from "@/lib/useAnimationFrame";
 import { useState, useRef, useEffect } from "react";
 
 function formatTime(seconds: number) {
@@ -15,14 +16,15 @@ function formatTime(seconds: number) {
 }
 
 export default function PlayerLayout() {
-  const { currentSong, isPlaying, togglePlayPause, currentTime, seek } =
+  const { currentSong, isPlaying, togglePlayPause, audioRef, seek } =
     useMusicPlayer();
+  const [displayTime, setDisplayTime] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const duration = currentSong?.durationMs ? currentSong.durationMs / 1000 : 0;
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const progress = duration > 0 ? (displayTime / duration) * 100 : 0;
 
   // Use refs to access latest values without triggering re-renders
   const currentSongRef = useRef(currentSong);
@@ -35,6 +37,31 @@ export default function PlayerLayout() {
     seekRef.current = seek;
     durationRef.current = duration;
   }, [currentSong, seek, duration]);
+
+  useEffect(() => {
+    setDisplayTime(0);
+  }, [currentSong?.id]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const syncDisplayTime = () => setDisplayTime(audio.currentTime);
+
+    audio.addEventListener("timeupdate", syncDisplayTime);
+    audio.addEventListener("seeked", syncDisplayTime);
+
+    return () => {
+      audio.removeEventListener("timeupdate", syncDisplayTime);
+      audio.removeEventListener("seeked", syncDisplayTime);
+    };
+  }, [audioRef, currentSong?.id]);
+
+  useAnimationFrame(() => {
+    if (audioRef.current) {
+      setDisplayTime(audioRef.current.currentTime);
+    }
+  }, isPlaying || isDragging);
 
   function calculateTimeFromPosition(clientX: number): number {
     if (!progressBarRef.current) return 0;
@@ -49,6 +76,7 @@ export default function PlayerLayout() {
     setIsDragging(true);
     const newTime = calculateTimeFromPosition(e.clientX);
     seekRef.current(newTime);
+    setDisplayTime(newTime);
   }
 
   // Use useEffect to manage global mouse event listeners
@@ -59,6 +87,7 @@ export default function PlayerLayout() {
       if (!currentSongRef.current) return;
       const newTime = calculateTimeFromPosition(e.clientX);
       seekRef.current(newTime);
+      setDisplayTime(newTime);
     }
 
     function handleMouseUp() {
@@ -118,7 +147,7 @@ export default function PlayerLayout() {
           </Stack>
           <Stack direction="row" gap={3} w="100%" align="center">
             <Text color="gray.400" fontSize="xs" minW="40px">
-              {formatTime(currentTime)}
+              {formatTime(displayTime)}
             </Text>
             <Box
               ref={progressBarRef}
