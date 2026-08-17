@@ -1,12 +1,27 @@
 // app/api/signup/route.ts
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { Prisma } from "@prisma/client";
+import { signUpSchema } from "@/features/auth/schemas";
+import { createSession } from "@/features/auth/session";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const { email, password, firstName, lastName } = await req.json();
+  const result = signUpSchema.safeParse(
+    await req.json().catch(() => null)
+  );
+
+  if (!result.success) {
+    return NextResponse.json(
+      {
+        error:
+          result.error.issues[0]?.message ?? "Enter valid account details",
+      },
+      { status: 400 }
+    );
+  }
+
+  const { email, password, firstName, lastName } = result.data;
 
   const salt = await bcrypt.genSalt();
   const passwordHash = await bcrypt.hash(password, salt);
@@ -14,32 +29,37 @@ export async function POST(req: Request) {
   let user;
   try {
     user = await prisma.user.create({
-      data: { email, passwordHash, firstName, lastName },
+      data: {
+        email,
+        passwordHash,
+        firstName,
+        lastName,
+      },
       select: { id: true, email: true, firstName: true, lastName: true },
     });
   } catch (err) {
     console.error("Error creating user:", err);
+
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2002"
+    ) {
+      return NextResponse.json(
+        { error: "An account with this email already exists" },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to create user, user might already exist" },
-      { status: 409 }
+      { error: "Unable to create account" },
+      { status: 500 }
     );
   }
 
   try {
-    const token = jwt.sign(
-      { email: user.email, id: user.id, time: Date.now() },
-      process.env.JWT_SECRET!, // don’t hardcode
-      { expiresIn: "8h" }
-    );
-
-    (await cookies()).set("ACCESS_TOKEN", token, {
-      httpOnly: true,
-      maxAge: 8 * 60 * 60,
-      path: "/",
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
-  } catch {
+    await createSession({ id: user.id, email: user.email });
+  } catch (error) {
+    console.error("Unable to create session:", error);
     return NextResponse.json(
       { error: "User created, but sign-in session failed" },
       { status: 500 }

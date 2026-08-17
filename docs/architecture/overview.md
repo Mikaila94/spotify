@@ -77,7 +77,7 @@ Prisma provides type-safe server-side database access and migrations for Postgre
 
 ### Authentication
 
-Sign-up and sign-in route handlers currently create users and issue an HTTP-only JWT cookie. Authentication is not yet enforced across pages or APIs, so it is an incomplete capability rather than a finished system boundary.
+Sign-up and sign-in create users and issue an HTTP-only JWT cookie. Public authentication pages use the root shell without player controls. A protected server layout verifies the cookie before rendering player pages, and protected APIs verify the same session independently. Sign-out expires the cookie, as recorded in [ADR 0002](../adr/0002-cookie-session-route-boundary.md).
 
 ## Current data flow
 
@@ -120,7 +120,9 @@ SWR is an open option, not a current decision. It becomes valuable when the prod
 * Use PostgreSQL with Prisma for persistence and type-safe server-side queries.
 * Use explicit API DTOs where data crosses the server/client boundary.
 * Use Chakra UI 3 as the UI component system.
-* Keep persistent playback controls in the root application layout.
+* Keep public authentication pages separate from the protected player layout.
+* Protect player pages and music APIs with a server-verified HTTP-only cookie session.
+* Keep persistent playback controls in the protected player layout.
 * Keep low-frequency playback state global and high-frequency derived display state local.
 * Keep the existing manual songs fetch until caching or revalidation requirements justify a library.
 

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   VStack,
   Text,
@@ -5,31 +7,20 @@ import {
   LinkBox,
   LinkOverlay,
   List,
-  Box,
 } from "@chakra-ui/react";
-import {
-  MdHome,
-  MdSearch,
-  MdLibraryMusic,
-  MdPlaylistAdd,
-  MdFavorite,
-} from "react-icons/md";
+import { MdHome, MdMusicNote } from "react-icons/md";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import SignOutButton from "@/features/auth/components/SignOutButton";
 
 const navMenu = [
   { name: "Home", icon: MdHome, route: "/" },
-  { name: "Search", icon: MdSearch, route: "/search" },
-  { name: "Your Library", icon: MdLibraryMusic, route: "/library" },
+  { name: "Songs", icon: MdMusicNote, route: "/songs" },
 ];
-
-const musicMenu = [
-  { name: "Create Playlist", icon: MdPlaylistAdd, route: "/" },
-  { name: "Favorites", icon: MdFavorite, route: "/favorites" },
-];
-
-const playlists = new Array(30).fill(1).map((_, i) => `Playlist ${i + 1}`);
 
 export default function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <VStack align="stretch" gap={0} color="white" h="100%">
       {/* Logo */}
@@ -52,7 +43,7 @@ export default function Sidebar() {
       {/* Main Navigation */}
       <nav>
         <List.Root mb={6} unstyled>
-          {navMenu.map(({ name, icon: Icon, route }, index) => (
+          {navMenu.map(({ name, icon: Icon, route }) => (
             <List.Item key={route} p="0">
               <LinkBox>
                 <LinkOverlay
@@ -64,7 +55,8 @@ export default function Sidebar() {
                   px="3"
                   py="3"
                   borderRadius="md"
-                  color={index === 0 ? "white" : "gray.400"}
+                  color={pathname === route ? "white" : "gray.400"}
+                  bg={pathname === route ? "gray.800" : "transparent"}
                   _hover={{ bg: "gray.800", color: "white" }}
                   fontWeight="medium"
                   transition="all 0.2s"
@@ -84,53 +76,8 @@ export default function Sidebar() {
         </List.Root>
       </nav>
 
-      <Separator borderColor="gray.700" mb={4} />
-
-      {/* Music Menu */}
-      <nav>
-        <List.Root unstyled>
-          {musicMenu.map(({ name, icon: Icon, route }) => (
-            <List.Item key={route} p="0">
-              <LinkBox>
-                <LinkOverlay
-                  asChild
-                  display="flex"
-                  alignItems="center"
-                  gap="3"
-                  w="100%"
-                  px="3"
-                  py="3"
-                  borderRadius="md"
-                  color="gray.400"
-                  _hover={{ bg: "gray.800", color: "white" }}
-                  fontWeight="medium"
-                  fontSize="sm"
-                  transition="all 0.2s"
-                >
-                  <NextLink href={route}>
-                    <>
-                      <List.Indicator asChild color="inherit">
-                        <Icon size={18} />
-                      </List.Indicator>
-                      {name}
-                    </>
-                  </NextLink>
-                </LinkOverlay>
-              </LinkBox>
-            </List.Item>
-          ))}
-        </List.Root>
-      </nav>
-
-      <Separator borderColor="gray.700" mb={4} />
-
-      <Box height="66%" overflowY="auto">
-        <List.Root>
-          {playlists.map((playlist, index) => (
-            <List.Item key={playlist + index}>{playlist}</List.Item>
-          ))}
-        </List.Root>
-      </Box>
+      <Separator borderColor="gray.700" mt="auto" mb={4} />
+      <SignOutButton />
     </VStack>
   );
 }

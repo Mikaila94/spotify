@@ -1,18 +1,25 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { signInSchema } from "@/features/auth/schemas";
+import { createSession } from "@/features/auth/session";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const { email, password } = await req.json();
+  const result = signInSchema.safeParse(
+    await req.json().catch(() => null)
+  );
 
-  if (!email || !password) {
+  if (!result.success) {
     return NextResponse.json(
-      { error: "Email and password required" },
+      {
+        error:
+          result.error.issues[0]?.message ?? "Enter valid sign-in details",
+      },
       { status: 400 }
     );
   }
+
+  const { email, password } = result.data;
 
   // 1) Look up the user
   const user = await prisma.user.findUnique({
@@ -21,7 +28,7 @@ export async function POST(req: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { error: "The user doesn't exist" },
+      { error: "Invalid email or password" },
       { status: 401 }
     );
   }
@@ -35,23 +42,16 @@ export async function POST(req: Request) {
     );
   }
 
-  // 3) Generate token
-  const token = jwt.sign(
-    { email: user.email, id: user.id, time: Date.now() },
-    process.env.JWT_SECRET!,
-    { expiresIn: "8h" }
-  );
+  try {
+    await createSession({ id: user.id, email: user.email });
+  } catch (error) {
+    console.error("Unable to create session:", error);
+    return NextResponse.json(
+      { error: "Unable to create session" },
+      { status: 500 }
+    );
+  }
 
-  // 4) Set cookie
-  (await cookies()).set("ACCESS_TOKEN", token, {
-    httpOnly: true,
-    maxAge: 8 * 60 * 60,
-    path: "/",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-
-  // 5) Return safe user object
   return NextResponse.json(
     {
       id: user.id,

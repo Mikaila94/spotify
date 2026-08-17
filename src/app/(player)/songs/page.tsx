@@ -1,38 +1,51 @@
 "use client";
 
 import { Box, Heading, Table, Grid, Button } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 import LyricsDisplay from "@/components/LyricsDisplay/LyricsDisplay";
 import { SongDTO } from "@/types/song";
 
-
 export default function SongsPage() {
+  const router = useRouter();
   const [songs, setSongs] = useState<SongDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const { setCurrentSong, currentSong } = useMusicPlayer();
 
-  function loadSongs() {
+  const loadSongs = useCallback(async () => {
     setLoading(true);
     setError(null);
 
-    fetch("/api/songs")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch songs: ${res.statusText}`);
-        }
-        return res.json();
-      })
-      .then((data) => setSongs(data))
-      .catch((error) => setError(error.message))
-      .finally(() => setLoading(false));
-  }
+    try {
+      const response = await fetch("/api/songs");
+
+      if (response.status === 401) {
+        router.replace("/sign-in");
+        router.refresh();
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch songs: ${response.statusText}`);
+      }
+
+      const data = (await response.json()) as SongDTO[];
+      setSongs(data);
+    } catch (loadError) {
+      setError(
+        loadError instanceof Error ? loadError.message : "Unable to load songs"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [router]);
 
   useEffect(() => {
-    loadSongs();
-  }, []);
+    void loadSongs();
+  }, [loadSongs]);
 
   const formatDuration = (ms: number | null) => {
     if (!ms) return "0:00";
@@ -83,7 +96,6 @@ export default function SongsPage() {
       </Heading>
 
       <Grid templateColumns="1fr 1fr" gap={6}>
-        {/* Left Side - Song Selection */}
         <Box>
           <Table.Root variant="outline" size="sm">
             <Table.Header>
@@ -124,7 +136,6 @@ export default function SongsPage() {
           </Table.Root>
         </Box>
 
-        {/* Right Side - Lyrics Display */}
         <Box>
           <LyricsDisplay />
         </Box>
