@@ -5,7 +5,7 @@
 
 ## Context
 
-The application has one shared `HTMLAudioElement` controlled through `MusicPlayerContext`. Song selection, play/pause state, seeking, the persistent player, and synchronized lyrics all depend on that playback session.
+The application has one shared `HTMLAudioElement` controlled through the playback module's `PlaybackProvider`. Track selection, play/pause state, seeking, the persistent player, and synchronized lyrics all depend on that playback session.
 
 The context previously copied `audio.currentTime` into React state on every animation frame. Because the context value changed with each frame, every context consumer could rerender approximately 60 times per second, including the songs page, which does not use playback time.
 
@@ -37,11 +37,11 @@ The context owns low-frequency shared state and commands: current song, playing 
 
 ## Decision
 
-Keep shared playback commands and low-frequency state in `MusicPlayerContext`. Keep high-frequency derived display state local to the components that render it.
+Keep shared playback commands and low-frequency state in the playback module's context. Keep high-frequency derived display state local to the components that render it.
 
-`PlayerLayout` maintains local display time for its elapsed-time label and progress bar. It uses animation frames while playing or dragging, native audio events for external seeks, and immediate local updates during progress-bar interaction.
+`PlayerBar` maintains local display time for its elapsed-time label and progress bar. It uses animation frames while playing or dragging, native audio events for external seeks, and immediate local updates during progress-bar interaction.
 
-`LyricsDisplay` continues to sample the shared audio element locally and updates React state only when the active lyric changes.
+`LyricsPanel` continues to sample the shared audio element locally and updates React state only when the active lyric changes.
 
 The audio element remains the single source of truth for playback position.
 

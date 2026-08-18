@@ -1,9 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { redirect } from "next/navigation";
-import PlayerLayout from "@/components/PlayerLayout/PlayerLayout";
-import Sidebar from "@/components/Sidebar/Sidebar";
-import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
-import { getSession } from "@/features/auth/session";
+import { AppSidebar } from "@/app/_components/AppSidebar";
+import { getSession } from "@/modules/auth/server";
+import { PlaybackProvider, PlayerBar } from "@/modules/playback/client";
 
 const SIDEBAR_WIDTH = "250px";
 const PLAYER_HEIGHT = "88px";
@@ -18,7 +17,7 @@ export default async function PlayerShellLayout({
   }
 
   return (
-    <MusicPlayerProvider>
+    <PlaybackProvider>
       <Box
         as="aside"
         position="fixed"
@@ -31,7 +30,7 @@ export default async function PlayerShellLayout({
         p={4}
         overflowY="auto"
       >
-        <Sidebar />
+        <AppSidebar />
       </Box>
 
       <Box
@@ -45,7 +44,7 @@ export default async function PlayerShellLayout({
         borderTop="1px solid"
         borderColor="gray.700"
       >
-        <PlayerLayout />
+        <PlayerBar />
       </Box>
 
       <Box
@@ -60,6 +59,6 @@ export default async function PlayerShellLayout({
       >
         {children}
       </Box>
-    </MusicPlayerProvider>
+    </PlaybackProvider>
   );
 }

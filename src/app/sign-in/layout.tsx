@@ -1,1 +1,1 @@
-export { default } from "@/features/auth/components/AuthOnlyLayout";
+export { AuthOnlyLayout as default } from "@/app/_components/AuthOnlyLayout";

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document describes the application's current architecture and the forces shaping it. It is a lightweight, revisable baseline rather than a complete specification. Meaningful changes should be recorded in focused Architecture Decision Records.
+This document describes the application's current architecture and the forces shaping it. It is a lightweight, revisable baseline rather than a complete specification. Meaningful changes should be recorded in focused Architecture Decision Records. Module ownership, public APIs, and import rules live in [modular architecture](./modular-architecture.md).
 
 ## Business and learning goals
 
@@ -40,17 +40,19 @@ The application is a modular monolith built with the Next.js App Router. Fronten
 ```mermaid
 flowchart LR
   Browser[Browser]
-  NextPages[Next.js pages and components]
-  RouteHandlers[Next.js route handlers]
+  App[Next.js app and composition]
+  Modules[Business modules]
+  Shared[Shared infrastructure]
   Prisma[Prisma ORM]
   Postgres[(PostgreSQL)]
   Audio[HTMLAudioElement]
 
-  Browser --> NextPages
-  NextPages --> RouteHandlers
-  RouteHandlers --> Prisma
+  Browser --> App
+  App --> Modules
+  Modules --> Shared
+  Shared --> Prisma
   Prisma --> Postgres
-  NextPages --> Audio
+  Modules --> Audio
 ```
 
 This style is appropriate because the codebase, team, and operational requirements are small. Splitting the system into services would add deployment, networking, authentication, observability, and consistency costs without solving a current product problem.
@@ -59,45 +61,45 @@ This style is appropriate because the codebase, team, and operational requiremen
 
 ### Presentation
 
-Next.js pages and React components render the interface. Chakra UI 3 provides the component and styling system. The root layout owns persistent application chrome: navigation and the bottom player.
+Next.js pages and React components render the interface. Chakra UI 3 provides the component and styling system. The protected player layout owns persistent application chrome: navigation and the bottom player. See [the modular architecture guide](./modular-architecture.md) for capability ownership and dependency rules.
 
 ### Playback
 
-`MusicPlayerContext` owns the shared playback session and low-frequency commands. The browser audio element is the source of truth for playback position. High-frequency display state remains local to the player and lyrics components, as recorded in [ADR 0001](../adr/0001-playback-state-boundary.md).
+The playback module's `PlaybackProvider` owns the shared playback session and low-frequency commands. The browser audio element is the source of truth for playback position. High-frequency display state remains local to the player and lyrics components, as recorded in [ADR 0001](../adr/0001-playback-state-boundary.md).
 
 ### API
 
-Next.js route handlers are the network boundary between browser code and server-only infrastructure. They own HTTP status codes, error responses, and mapping database records into client-facing contracts.
+Next.js route handlers are the network boundary between browser code and server-only modules. They own HTTP status codes and error responses while delegating business rules, queries, and record mapping to module services.
 
-The songs endpoint maps Prisma results to `SongDTO`. This keeps database join-table details and unused fields out of the client contract.
+The catalog module maps Prisma results to `SongDTO`. This keeps database join-table details and unused fields out of the client contract.
 
 ### Persistence
 
-Prisma provides type-safe server-side database access and migrations for PostgreSQL. Prisma is not the API layer or the client-side fetching solution; route handlers remain responsible for API behavior.
+Prisma provides type-safe server-side database access and migrations for PostgreSQL. Prisma is not the API layer or the client-side fetching solution; modules own persistence behavior and Route Handlers adapt it to HTTP.
 
 ### Authentication
 
-Sign-up and sign-in create users and issue an HTTP-only JWT cookie. Public authentication pages use the root shell without player controls. A protected server layout verifies the cookie before rendering player pages, and protected APIs verify the same session independently. Sign-out expires the cookie, as recorded in [ADR 0002](../adr/0002-cookie-session-route-boundary.md).
+The auth module registers and authenticates users and manages an HTTP-only JWT cookie. Public authentication pages use the root shell without player controls. A protected server layout verifies the cookie before rendering player pages, and protected APIs verify the same session independently. Sign-out expires the cookie, as recorded in [ADR 0002](../adr/0002-cookie-session-route-boundary.md).
 
 ## Current data flow
 
 ```mermaid
 sequenceDiagram
-  participant SongsPage
+  participant SongsScreen
   participant SongsAPI
-  participant Prisma
+  participant CatalogModule
   participant Database
-  participant PlayerContext
+  participant PlaybackModule
   participant AudioElement
 
-  SongsPage->>SongsAPI: GET /api/songs
-  SongsAPI->>Prisma: findMany with relations
-  Prisma->>Database: Query
-  Database-->>Prisma: Song records
-  Prisma-->>SongsAPI: Typed results
-  SongsAPI-->>SongsPage: SongDTO array
-  SongsPage->>PlayerContext: Select song
-  PlayerContext->>AudioElement: Set source and play
+  SongsScreen->>SongsAPI: GET /api/songs
+  SongsAPI->>CatalogModule: listSongs
+  CatalogModule->>Database: Prisma query with relations
+  Database-->>CatalogModule: Song records
+  CatalogModule-->>SongsAPI: SongDTO array
+  SongsAPI-->>SongsScreen: SongDTO array
+  SongsScreen->>PlaybackModule: Select PlayableTrack
+  PlaybackModule->>AudioElement: Set source and play
 ```
 
 ## Rendering strategy
@@ -117,6 +119,7 @@ SWR is an open option, not a current decision. It becomes valuable when the prod
 ## Current decisions
 
 * Use a Next.js modular monolith rather than separate frontend and backend deployments.
+* Keep discovered business capabilities in `src/modules`, domain-neutral infrastructure in `src/shared`, and routing or cross-capability composition in `src/app`.
 * Use PostgreSQL with Prisma for persistence and type-safe server-side queries.
 * Use explicit API DTOs where data crosses the server/client boundary.
 * Use Chakra UI 3 as the UI component system.
