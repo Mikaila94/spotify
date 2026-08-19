@@ -14,6 +14,7 @@ function toPlayableTrack(song: SongDTO): PlayableTrack {
     name: song.name,
     durationMs: song.durationMs,
     url: song.url,
+    lyrics: song.lyrics,
     artists: song.artists.map(({ name }) => ({ name })),
   };
 }

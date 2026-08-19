@@ -1,7 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Prisma, PrismaClient } from "../src/generated/prisma/client";
 import bcrypt from "bcrypt";
+import { lyricsBySongName } from "./lyrics";
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not configured");
+}
+
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString }),
+});
 
 async function main() {
   // ---------------------------------------------------------------------------
@@ -93,6 +104,7 @@ async function main() {
     data: {
       name: "Hollow Lights",
       url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      lyrics: lyricsBySongName["Hollow Lights"] as Prisma.InputJsonValue,
       durationMs: 372_715,
       trackNumber: 1,
       discNumber: 1,
@@ -104,6 +116,7 @@ async function main() {
     data: {
       name: "Echoes of Silence",
       url: "/audio/3-09 Echoes Of Silence.m4a",
+      lyrics: lyricsBySongName["Echoes of Silence"] as Prisma.InputJsonValue,
       durationMs: 240_040,
       trackNumber: 2,
       discNumber: 1,
@@ -115,6 +128,7 @@ async function main() {
     data: {
       name: "Chromatic Run",
       url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+      lyrics: lyricsBySongName["Chromatic Run"] as Prisma.InputJsonValue,
       durationMs: 344_085,
       trackNumber: 3,
       discNumber: 1,
@@ -126,6 +140,7 @@ async function main() {
     data: {
       name: "Transit Lines",
       url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+      lyrics: lyricsBySongName["Transit Lines"] as Prisma.InputJsonValue,
       durationMs: 302_524,
       trackNumber: 5,
       discNumber: 1,
@@ -137,6 +152,7 @@ async function main() {
     data: {
       name: "Cold Start",
       url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+      lyrics: lyricsBySongName["Cold Start"] as Prisma.InputJsonValue,
       durationMs: 353_959,
       // single, no album on purpose
     },

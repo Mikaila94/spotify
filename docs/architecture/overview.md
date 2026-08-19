@@ -71,7 +71,7 @@ The playback module's `PlaybackProvider` owns the shared playback session and lo
 
 Next.js route handlers are the network boundary between browser code and server-only modules. They own HTTP status codes and error responses while delegating business rules, queries, and record mapping to module services.
 
-The catalog module maps Prisma results to `SongDTO`. This keeps database join-table details and unused fields out of the client contract.
+The catalog module maps Prisma results to `SongDTO`. This keeps database join-table details and unused fields out of the client contract. Timed lyrics are stored as JSON on `Song` and included in that read model.
 
 ### Persistence
 
@@ -144,7 +144,7 @@ These should be decided when a concrete feature creates the requirement:
 * Which routes need server rendering, static generation, metadata, or SEO?
 * How should authentication be verified and protected across pages and APIs?
 * When do client caching and revalidation justify SWR or another data library?
-* Should lyrics live in static files, the database, or an external service?
+* Should lyrics stay on the song list payload, or load only after a song is selected?
 * What validation library and error contract should API routes share?
 * What automated testing mix provides the most value?
 * Where will the application, database, and audio assets be deployed?

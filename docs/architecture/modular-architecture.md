@@ -58,19 +58,21 @@ Evidence:
 - the `/songs` browsing workflow;
 - the protected `GET /api/songs` endpoint;
 - the ordered Prisma query joining songs, albums, and artists;
-- the `SongDTO` network/read contract;
+- the `SongDTO` network/read contract, including optional timed lyrics;
 - loading, error, retry, empty, and tabular catalog states.
 
 Responsibilities:
 
 - catalog queries and Prisma-to-contract mapping;
 - the song read model exposed to consumers;
+- timed lyric documents stored on songs;
 - browser API access for the catalog;
 - catalog-specific presentation and fetch state.
 
 Owned data:
 
-- `Song`, `Artist`, `Album`, `SongArtist`, and `AlbumArtist` read behavior.
+- `Song`, `Artist`, `Album`, `SongArtist`, and `AlbumArtist` read behavior;
+- `Song.lyrics` JSON timed-line documents.
 
 Catalog does not own playback. It reports a selected song through a callback,
 allowing application composition to translate that song to a playback contract.
@@ -85,7 +87,7 @@ Evidence:
 - browser `Audio` element lifecycle;
 - play, pause, seek, end, and playback-error behavior;
 - persistent player controls;
-- synchronized lyric display and lyric seeking.
+- synchronized lyric display and lyric seeking from the selected track.
 
 Responsibilities:
 
@@ -96,12 +98,11 @@ Responsibilities:
 
 Owned data:
 
-- browser-only playback state;
-- the current in-memory lyric fixtures.
+- browser-only playback state.
 
-Lyrics remain part of playback because they have no independent persistence,
-API, mutation, or workflow. If those appear later, their ownership can be
-re-evaluated.
+Lyrics content belongs to catalog. Playback receives timed lines on
+`PlayableTrack` and owns highlighting, scrolling, and click-to-seek. There is
+still no independent lyrics workflow, so there is no lyrics module.
 
 ### Data that is not yet a module
 

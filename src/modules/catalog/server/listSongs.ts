@@ -1,6 +1,7 @@
 import "server-only";
 
 import prisma from "@/shared/db/prisma";
+import { parseLyrics } from "../domain/lyrics";
 import type { SongDTO } from "../public";
 
 export async function listSongs(): Promise<SongDTO[]> {
@@ -23,6 +24,7 @@ export async function listSongs(): Promise<SongDTO[]> {
     name: song.name,
     durationMs: song.durationMs,
     url: song.url,
+    lyrics: parseLyrics(song.lyrics),
     album: song.album
       ? {
           id: song.album.id,
