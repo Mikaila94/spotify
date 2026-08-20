@@ -1,0 +1,16 @@
+---
+description: Modular monolith ownership and import rules
+alwaysApply: true
+---
+
+# Modular monolith
+
+Follow [docs/architecture/modular-architecture.md](docs/architecture/modular-architecture.md) and [docs/architecture/overview.md](docs/architecture/overview.md). Do not paste them.
+
+- Dependency direction: `app → modules → shared`.
+- Modules never import `app`. Shared never imports modules or `app`.
+- Cross-module use only `public.ts`, `server.ts`, or `client.ts`.
+- Do not mix server and client exports in one barrel.
+- Privileged code stays server-only. Route files stay thin adapters.
+- Do not invent modules from schema tables or Spotify feature lists. Discover capabilities from implemented workflows.
+- Playlist tables are unclaimed until a playlist workflow exists.

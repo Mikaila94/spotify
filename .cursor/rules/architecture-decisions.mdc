@@ -1,0 +1,16 @@
+---
+description: When and how to record Architecture Decision Records
+alwaysApply: true
+---
+
+# Architecture Decision Records
+
+We record meaningful decisions in [docs/adr](docs/adr). Read existing ADRs before proposing a conflicting change.
+
+Write an ADR when the choice has real alternatives and lasting consequences: module boundaries, dependency direction, state, API/data ownership, auth, rendering, caching, error handling, persistence.
+
+Do not write ADRs for names, boilerplate, or other reversible details.
+
+An ADR is short: context, problem, options, decision, consequences. After a meaningful change, update the matching ADR or overview if the decision shifted.
+
+Template and examples live in [MENTOR_CONTEXT.MD](MENTOR_CONTEXT.MD) (ADR practice) and the existing files under `docs/adr`.

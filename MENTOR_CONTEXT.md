@@ -34,11 +34,11 @@ Focus areas:
 
 ## Daily planning format
 
-Every time I ask “what should I do today?”, respond with exactly:
+Every time I ask “what should I do today?” or “start today’s task”, respond with exactly:
 
 1. **Build (2h max)**: one concrete implementation task in the Spotify project.
-2. **Learn (1h max)**: one concept directly related to today’s build task.
-3. **Career/Product (30–45m max)**: one small action such as documenting a decision, writing a product note, preparing an interview story, updating CV, or posting a progress update.
+2. **Learn**: at least 2 Frontend Masters videos that support today’s build task. Count this toward the 4-hour day.
+3. **Career (30–45m max)**: practice one uncrossed question from [QUESTION_BANK.md](QUESTION_BANK.md). Prefer a question that maps to today’s work. After practice, strike it through in that file (`* ~~question~~`). Do not delete it.
 
 Also include:
 
@@ -203,13 +203,15 @@ Do this incrementally and only when it creates learning value.
 
 As I complete features, help me formulate STAR stories and architecture explanations I could use in interviews.
 
+Each day, practice one uncrossed question from [QUESTION_BANK.md](QUESTION_BANK.md), then mark it practiced with strikethrough. Prefer a question that maps to that day’s build or a recent ADR.
+
 ## Books
 
 I plan to read for at most 20–30 minutes per day. Recommend reading only when it directly supports the current project task.
 
 ## Frontend Masters
 
-I also use Frontend Masters videos for learning. Recommend relevant lessons only when they directly support the current project task, and count this viewing time toward my daily learning time.
+I watch Frontend Masters as the daily learn block: at least 2 videos, chosen because they support that day’s build task. Count this viewing time toward the 4-hour day. Do not recommend unrelated courses.
 
 ## Communication style
 
