@@ -1,22 +1,42 @@
-import type { SongDTO } from "../public";
+import { z } from "zod";
+import { songListSchema, songLyricsDTOSchema } from "../domain/song";
+import type { LyricLine, SongDTO } from "../public";
+import { readApiError } from "@/shared/http/apiError";
 
-export type FetchSongsResult =
-  | { status: "ok"; songs: SongDTO[] }
-  | { status: "unauthorized" };
+export class UnauthorizedError extends Error {
+  constructor() {
+    super("Unauthorized");
+    this.name = "UnauthorizedError";
+  }
+}
 
-export async function fetchSongs(): Promise<FetchSongsResult> {
-  const response = await fetch("/api/songs");
+async function catalogGet<T>(url: string, schema: z.ZodType<T>): Promise<T> {
+  const response = await fetch(url);
 
   if (response.status === 401) {
-    return { status: "unauthorized" };
+    throw new UnauthorizedError();
   }
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch songs: ${response.statusText}`);
+    throw new Error(
+      await readApiError(response, `Failed to fetch: ${response.statusText}`),
+    );
   }
 
-  return {
-    status: "ok",
-    songs: (await response.json()) as SongDTO[],
-  };
+  const parsed = schema.safeParse(await response.json());
+
+  if (!parsed.success) {
+    throw new Error("Invalid response");
+  }
+
+  return parsed.data;
+}
+
+export async function fetchSongs(url: string): Promise<SongDTO[]> {
+  return catalogGet(url, songListSchema);
+}
+
+export async function fetchSongLyrics(url: string): Promise<LyricLine[]> {
+  const payload = await catalogGet(url, songLyricsDTOSchema);
+  return payload.lyrics;
 }

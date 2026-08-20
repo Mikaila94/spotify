@@ -56,17 +56,18 @@ Location: `src/modules/catalog`
 Evidence:
 
 - the `/songs` browsing workflow;
-- the protected `GET /api/songs` endpoint;
-- the ordered Prisma query joining songs, albums, and artists;
-- the `SongDTO` network/read contract, including optional timed lyrics;
+- the protected `GET /api/songs` and `GET /api/songs/:id/lyrics` endpoints;
+- the ordered Prisma query joining songs, albums, and artists without lyric documents;
+- the `SongDTO` list contract and the `SongLyricsDTO` on-demand lyrics contract;
 - loading, error, retry, empty, and tabular catalog states.
 
 Responsibilities:
 
 - catalog queries and Prisma-to-contract mapping;
-- the song read model exposed to consumers;
-- timed lyric documents stored on songs;
-- browser API access for the catalog;
+- the song list read model exposed to consumers;
+- timed lyric documents stored on songs and loaded after selection;
+- SWR hooks for the song list and per-song lyrics;
+- Zod contracts for catalog HTTP responses and song ids;
 - catalog-specific presentation and fetch state.
 
 Owned data:
@@ -100,9 +101,10 @@ Owned data:
 
 - browser-only playback state.
 
-Lyrics content belongs to catalog. Playback receives timed lines on
-`PlayableTrack` and owns highlighting, scrolling, and click-to-seek. There is
-still no independent lyrics workflow, so there is no lyrics module.
+Lyrics content belongs to catalog. Application composition loads lyrics through
+catalog's SWR hook keyed by the selected song id and passes the lines into
+playback UI. Playback owns highlighting, scrolling, and click-to-seek.
+There is still no independent lyrics workflow, so there is no lyrics module.
 
 ### Data that is not yet a module
 
@@ -136,6 +138,7 @@ Current shared code is domain-neutral:
 
 - `db/prisma.ts`: server-only Prisma client lifecycle;
 - `hooks/useAnimationFrame.ts`: generic browser animation-frame hook;
+- `http/apiError.ts`: `{ error: string }` response parsing and unknown-error messages;
 - `ui/*`: Chakra UI and color-mode integration.
 
 Shared code must not contain terms such as song, playlist, playback, account,
@@ -171,8 +174,8 @@ or client components.
 - Client components consume only `client.ts` and `public.ts`.
 - Server Components should call `server.ts` directly when they need module
   data; they must not fetch this application's own Route Handlers.
-- The current catalog screen is intentionally client-fetched to preserve its
-  explicit loading, retry, and unauthorized-session behavior.
+- The current catalog screen is intentionally client-fetched with SWR to preserve
+  loading, retry, cache-by-key, and unauthorized-session behavior.
 - A module that performs a future mutation owns the associated revalidation or
   cache invalidation policy.
 
@@ -184,8 +187,9 @@ Modules must not reach into another module's implementation.
 The songs screen is an application-level composition example:
 
 1. Catalog reports a selected `SongDTO`.
-2. `app` maps it to playback's smaller `PlayableTrack`.
-3. Playback receives no album or catalog persistence details.
+2. `app` maps it to playback's smaller `PlayableTrack` and starts audio.
+3. `app` loads lyrics through catalog keyed by the current track id.
+4. Playback receives lyric lines as UI input, not as session state.
 
 Direct module-to-module imports are allowed only when a real business workflow
 requires them and only through `public.ts`, `server.ts`, or `client.ts`.

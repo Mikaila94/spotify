@@ -1,9 +1,9 @@
 "use client";
 
 import { Box, Button, Heading, Table } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { errorMessage } from "@/shared/http/apiError";
 import type { SongDTO } from "../public";
-import { fetchSongs } from "./api";
+import { useSongs } from "./useSongs";
 
 interface SongCatalogProps {
   selectedSongId: number | null;
@@ -23,37 +23,9 @@ export function SongCatalog({
   onSelectSong,
   onUnauthorized,
 }: SongCatalogProps) {
-  const [songs, setSongs] = useState<SongDTO[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: songs, error, isLoading, mutate } = useSongs(onUnauthorized);
 
-  const loadSongs = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const result = await fetchSongs();
-
-      if (result.status === "unauthorized") {
-        onUnauthorized();
-        return;
-      }
-
-      setSongs(result.songs);
-    } catch (loadError) {
-      setError(
-        loadError instanceof Error ? loadError.message : "Unable to load songs",
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, [onUnauthorized]);
-
-  useEffect(() => {
-    void loadSongs();
-  }, [loadSongs]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <Box>
         <Heading color="white" mb={6}>
@@ -71,14 +43,14 @@ export function SongCatalog({
           Songs
         </Heading>
         <Box color="red.400" mb={4}>
-          {error}
+          {errorMessage(error, "Unable to load songs")}
         </Box>
-        <Button onClick={loadSongs}>Retry</Button>
+        <Button onClick={() => void mutate()}>Retry</Button>
       </Box>
     );
   }
 
-  if (songs.length === 0) {
+  if (!songs || songs.length === 0) {
     return (
       <Box>
         <Heading color="white" mb={6}>

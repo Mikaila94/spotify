@@ -71,7 +71,7 @@ The playback module's `PlaybackProvider` owns the shared playback session and lo
 
 Next.js route handlers are the network boundary between browser code and server-only modules. They own HTTP status codes and error responses while delegating business rules, queries, and record mapping to module services.
 
-The catalog module maps Prisma results to `SongDTO`. This keeps database join-table details and unused fields out of the client contract. Timed lyrics are stored as JSON on `Song` and included in that read model.
+The catalog module maps Prisma results to `SongDTO`. This keeps database join-table details and unused fields out of the client contract. Timed lyrics are stored as JSON on `Song` and loaded through a separate song-lyrics read after selection, as recorded in [ADR 0003](../adr/0003-lyrics-on-demand.md). Catalog clients parse list and lyrics JSON with Zod before use.
 
 ### Persistence
 
@@ -87,6 +87,7 @@ The auth module registers and authenticates users and manages an HTTP-only JWT c
 sequenceDiagram
   participant SongsScreen
   participant SongsAPI
+  participant LyricsAPI
   participant CatalogModule
   participant Database
   participant PlaybackModule
@@ -94,12 +95,19 @@ sequenceDiagram
 
   SongsScreen->>SongsAPI: GET /api/songs
   SongsAPI->>CatalogModule: listSongs
-  CatalogModule->>Database: Prisma query with relations
+  CatalogModule->>Database: Prisma query without lyrics
   Database-->>CatalogModule: Song records
   CatalogModule-->>SongsAPI: SongDTO array
   SongsAPI-->>SongsScreen: SongDTO array
   SongsScreen->>PlaybackModule: Select PlayableTrack
   PlaybackModule->>AudioElement: Set source and play
+  SongsScreen->>LyricsAPI: GET /api/songs/:id/lyrics
+  LyricsAPI->>CatalogModule: getSongLyrics
+  CatalogModule->>Database: Song.lyrics JSON
+  Database-->>CatalogModule: Lyric document
+  CatalogModule-->>LyricsAPI: LyricLine array
+  LyricsAPI-->>SongsScreen: SongLyricsDTO
+  SongsScreen->>PlaybackModule: Render lyrics for selected track
 ```
 
 ## Rendering strategy
@@ -112,9 +120,9 @@ Rendering should be selected per route based on user value, SEO requirements, ca
 
 ## Client data fetching
 
-The songs page currently uses native `fetch` with explicit loading, error, empty, and retry states.
+Catalog client reads use SWR, keyed by resource URL. `useSongs` loads the list. `useSongLyrics` loads timed lines for the selected song id and does not run until a track is selected. Fetchers throw on failure, including `UnauthorizedError` for `401`. Retry uses SWR `mutate`. See [ADR 0004](../adr/0004-swr-catalog-reads.md).
 
-SWR is an open option, not a current decision. It becomes valuable when the product needs cache sharing, deduplication, automatic revalidation, stale-while-revalidate behavior, or consistent request conventions across several client features. Adding it before those requirements would replace understandable local code with an abstraction that has not yet earned its cost.
+Auth forms still use local `fetch` until they share the same read/cache needs.
 
 ## Current decisions
 
@@ -127,7 +135,9 @@ SWR is an open option, not a current decision. It becomes valuable when the prod
 * Protect player pages and music APIs with a server-verified HTTP-only cookie session.
 * Keep persistent playback controls in the protected player layout.
 * Keep low-frequency playback state global and high-frequency derived display state local.
-* Keep the existing manual songs fetch until caching or revalidation requirements justify a library.
+* Use SWR for catalog list and lyrics reads.
+* Validate untrusted HTTP input and catalog client responses with Zod. API errors use `{ error: string }`.
+* Keep timed lyrics off the song list payload and load them after a track is selected.
 
 ## Non-goals
 
@@ -143,9 +153,6 @@ These should be decided when a concrete feature creates the requirement:
 
 * Which routes need server rendering, static generation, metadata, or SEO?
 * How should authentication be verified and protected across pages and APIs?
-* When do client caching and revalidation justify SWR or another data library?
-* Should lyrics stay on the song list payload, or load only after a song is selected?
-* What validation library and error contract should API routes share?
 * What automated testing mix provides the most value?
 * Where will the application, database, and audio assets be deployed?
 * When should playlists, search, and favorites become real feature boundaries?

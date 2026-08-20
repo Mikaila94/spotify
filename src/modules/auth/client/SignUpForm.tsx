@@ -13,10 +13,7 @@ import {
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
-
-type ErrorResponse = {
-  error?: string;
-};
+import { errorMessage, readApiError } from "@/shared/http/apiError";
 
 export function SignUpForm() {
   const router = useRouter();
@@ -41,20 +38,15 @@ export function SignUpForm() {
       });
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as
-          | ErrorResponse
-          | null;
-        throw new Error(data?.error ?? "Unable to create account");
+        throw new Error(
+          await readApiError(response, "Unable to create account"),
+        );
       }
 
       router.replace("/");
       router.refresh();
     } catch (submitError) {
-      setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "Unable to create account",
-      );
+      setError(errorMessage(submitError, "Unable to create account"));
     } finally {
       setIsSubmitting(false);
     }

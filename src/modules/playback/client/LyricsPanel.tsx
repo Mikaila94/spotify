@@ -1,10 +1,18 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { Box, Button, Text } from "@chakra-ui/react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useAnimationFrame } from "@/shared/hooks/useAnimationFrame";
+import { errorMessage } from "@/shared/http/apiError";
 import type { LyricLine } from "../public";
 import { usePlayback } from "./PlaybackContext";
+
+interface LyricsPanelProps {
+  lyrics: LyricLine[] | undefined;
+  isLoading: boolean;
+  error: unknown;
+  onRetry: () => void;
+}
 
 function findActiveLyricIndex(lyrics: LyricLine[], currentTime: number) {
   return lyrics.reduce(
@@ -13,19 +21,38 @@ function findActiveLyricIndex(lyrics: LyricLine[], currentTime: number) {
   );
 }
 
-export function LyricsPanel() {
+function LyricsStatus({ children }: { children: ReactNode }) {
+  return (
+    <Box
+      h="calc(100vh - 250px)"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      gap={4}
+    >
+      {children}
+    </Box>
+  );
+}
+
+export function LyricsPanel({
+  lyrics,
+  isLoading,
+  error,
+  onRetry,
+}: LyricsPanelProps) {
   const { currentTrack, isPlaying, audioRef, seek } = usePlayback();
   const [activeLineIndex, setActiveLineIndex] = useState(-1);
   const activeLineRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const lyrics = currentTrack?.lyrics ?? [];
 
   useEffect(() => {
     setActiveLineIndex(-1);
   }, [currentTrack?.id]);
 
   useAnimationFrame(() => {
-    if (!audioRef.current || lyrics.length === 0) return;
+    if (!audioRef.current || !lyrics || lyrics.length === 0) return;
 
     const newIndex = findActiveLyricIndex(
       lyrics,
@@ -37,6 +64,8 @@ export function LyricsPanel() {
   }, isPlaying);
 
   function handleSeek(time: number) {
+    if (!lyrics) return;
+
     seek(time);
     setActiveLineIndex(findActiveLyricIndex(lyrics, time));
   }
@@ -52,31 +81,42 @@ export function LyricsPanel() {
 
   if (!currentTrack) {
     return (
-      <Box
-        h="calc(100vh - 250px)"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <LyricsStatus>
         <Text color="gray.500" fontSize="lg">
           Select a song to view lyrics
         </Text>
-      </Box>
+      </LyricsStatus>
+    );
+  }
+
+  if (error) {
+    return (
+      <LyricsStatus>
+        <Text color="red.400">
+          {errorMessage(error, "Unable to load lyrics")}
+        </Text>
+        <Button onClick={onRetry}>Retry</Button>
+      </LyricsStatus>
+    );
+  }
+
+  if (isLoading || lyrics === undefined) {
+    return (
+      <LyricsStatus>
+        <Text color="gray.500" fontSize="lg">
+          Loading lyrics...
+        </Text>
+      </LyricsStatus>
     );
   }
 
   if (lyrics.length === 0) {
     return (
-      <Box
-        h="calc(100vh - 250px)"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <LyricsStatus>
         <Text color="gray.500" fontSize="lg">
           No lyrics available for this song
         </Text>
-      </Box>
+      </LyricsStatus>
     );
   }
 

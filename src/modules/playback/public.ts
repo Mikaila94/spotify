@@ -8,7 +8,6 @@ export interface PlayableTrack {
   name: string;
   durationMs: number | null;
   url: string;
-  lyrics: LyricLine[];
   artists: Array<{
     name: string;
   }>;
