@@ -1,0 +1,22 @@
+---
+description: Prefer TypeScript interfaces over type aliases
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# TypeScript shapes
+
+Prefer `interface` over `type` for object shapes.
+
+```ts
+// ❌
+type SongDTO = { id: number; name: string };
+
+// ✅
+interface SongDTO {
+  id: number;
+  name: string;
+}
+```
+
+Use `type` only when `interface` cannot express it: unions, tuples, mapped types, or `z.infer<>`.

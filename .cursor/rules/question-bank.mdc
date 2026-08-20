@@ -1,0 +1,21 @@
+---
+description: Practice and mark interview questions in QUESTION_BANK.md
+globs: QUESTION_BANK.md
+alwaysApply: false
+---
+
+# Question bank
+
+Daily career practice uses [QUESTION_BANK.md](QUESTION_BANK.md).
+
+- Pick one question that is not struck through.
+- Prefer a question that maps to today’s build or a recent ADR.
+- Practice it (spoken STAR or architecture answer). Do not skip the practice to only edit the file.
+- After it is practiced, mark it in place. Do not delete it.
+
+```md
+* Unpracticed question
+* ~~Practiced question~~
+```
+
+Do not pick a `~~struck-through~~` question again.

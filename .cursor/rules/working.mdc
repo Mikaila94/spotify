@@ -1,0 +1,9 @@
+---
+description: Fix root causes; summarize completely
+alwaysApply: true
+---
+
+# Working style
+
+- **Fix the cause, not the symptom.** If a UI is blank, a type error, or a test fails, find the broken contract, query, or boundary and change that. Do not paper over it with extra checks, default values, or one-off patches that leave the real bug in place.
+- **Summaries must be complete.** When recapping work, a decision, a review, or what changed, include every important fact: files, behavior, tradeoffs, follow-ups, and what was *not* done. Do not omit something because it seems obvious or makes the recap shorter. Short is fine only if nothing important is missing.

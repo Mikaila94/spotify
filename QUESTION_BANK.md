@@ -80,5 +80,5 @@ Bruk følgende spørsmål organisert i temaer. Nye spørsmål kan legges til nå
 
 🎯 Ser etter: problemforståelse, tradeoffs, tydelige grenser og pragmatiske valg
 
-* Hvorfor kan det være nyttig å lage en `SongDTO` i stedet for å returnere Prisma-modeller direkte fra et API? Forklar fordeler, kostnader og når en separat DTO kan være unødvendig.
+* ~~Hvorfor kan det være nyttig å lage en `SongDTO` i stedet for å returnere Prisma-modeller direkte fra et API? Forklar fordeler, kostnader og når en separat DTO kan være unødvendig.~~
 * Musikkspilleren må styres fra sangsiden, en vedvarende bunnspiller og tekstvisningen. Hvor bør avspillingsstate bo? Sammenlign lokal komponentstate, React Context og et eksternt state-bibliotek, og velg én løsning for dette prosjektet.
