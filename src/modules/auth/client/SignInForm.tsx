@@ -13,10 +13,7 @@ import {
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
-
-type ErrorResponse = {
-  error?: string;
-};
+import { errorMessage, readApiError } from "@/shared/http/apiError";
 
 export function SignInForm() {
   const router = useRouter();
@@ -39,20 +36,13 @@ export function SignInForm() {
       });
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as
-          | ErrorResponse
-          | null;
-        throw new Error(data?.error ?? "Unable to sign in");
+        throw new Error(await readApiError(response, "Unable to sign in"));
       }
 
       router.replace("/");
       router.refresh();
     } catch (submitError) {
-      setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "Unable to sign in",
-      );
+      setError(errorMessage(submitError, "Unable to sign in"));
     } finally {
       setIsSubmitting(false);
     }

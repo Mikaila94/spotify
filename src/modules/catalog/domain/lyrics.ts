@@ -5,7 +5,7 @@ const lyricLineSchema = z.object({
   text: z.string(),
 });
 
-const lyricsSchema = z.array(lyricLineSchema);
+export const lyricsSchema = z.array(lyricLineSchema);
 
 export type LyricLine = z.infer<typeof lyricLineSchema>;
 
