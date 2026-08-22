@@ -65,7 +65,7 @@ Next.js pages and React components render the interface. Chakra UI 3 provides th
 
 ### Playback
 
-The playback module's `PlaybackProvider` owns the shared playback session and low-frequency commands. The browser audio element is the source of truth for playback position. High-frequency display state remains local to the player and lyrics components, as recorded in [ADR 0001](../adr/0001-playback-state-boundary.md).
+The playback module's `PlaybackProvider` owns the shared playback session: current track, ordered queue, and low-frequency commands. Skip finds neighbors by `currentTrack.id` in that queue, as recorded in [ADR 0005](../adr/0005-playback-queue.md). The browser audio element is the source of truth for playback position. High-frequency display state remains local to the player and lyrics components, as recorded in [ADR 0001](../adr/0001-playback-state-boundary.md).
 
 ### API
 
@@ -99,7 +99,7 @@ sequenceDiagram
   Database-->>CatalogModule: Song records
   CatalogModule-->>SongsAPI: SongDTO array
   SongsAPI-->>SongsScreen: SongDTO array
-  SongsScreen->>PlaybackModule: Select PlayableTrack
+  SongsScreen->>PlaybackModule: PlayableTrack plus queue
   PlaybackModule->>AudioElement: Set source and play
   SongsScreen->>LyricsAPI: GET /api/songs/:id/lyrics
   LyricsAPI->>CatalogModule: getSongLyrics
@@ -134,6 +134,7 @@ Auth forms still use local `fetch` until they share the same read/cache needs.
 * Keep public authentication pages separate from the protected player layout.
 * Protect player pages and music APIs with a server-verified HTTP-only cookie session.
 * Keep persistent playback controls in the protected player layout.
+* Keep an ordered `PlayableTrack` queue in playback for next and previous. Skip looks up the current id, wraps at the ends, and does not store a row index.
 * Keep low-frequency playback state global and high-frequency derived display state local.
 * Use SWR for catalog list and lyrics reads.
 * Validate untrusted HTTP input and catalog client responses with Zod. API errors use `{ error: string }`.

@@ -2,7 +2,7 @@
 
 import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay, FaVolumeUp } from "react-icons/fa";
+import { FaPause, FaPlay, FaStepBackward, FaStepForward, FaVolumeUp } from "react-icons/fa";
 import { useAnimationFrame } from "@/shared/hooks/useAnimationFrame";
 import { usePlayback } from "./PlaybackContext";
 
@@ -16,8 +16,16 @@ function formatTime(seconds: number) {
 }
 
 export function PlayerBar() {
-  const { currentTrack, isPlaying, togglePlayPause, audioRef, seek } =
-    usePlayback();
+  const {
+    currentTrack,
+    isPlaying,
+    canSkip,
+    togglePlayPause,
+    playNext,
+    playPrevious,
+    audioRef,
+    seek,
+  } = usePlayback();
   const [displayTime, setDisplayTime] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -118,7 +126,23 @@ export function PlayerBar() {
         </Flex>
 
         <Flex direction="column" align="center" flex="1" maxW="600px">
-          <Stack direction="row" gap={4} mb={2}>
+          <Stack direction="row" gap={4} mb={2} align="center">
+            <Button
+              aria-label="Previous"
+              variant="ghost"
+              color="white"
+              borderRadius="full"
+              w="32px"
+              h="32px"
+              minW="32px"
+              p={0}
+              onClick={playPrevious}
+              disabled={!canSkip}
+              _hover={{ transform: "scale(1.05)" }}
+              transition="transform 0.2s"
+            >
+              <FaStepBackward size={14} />
+            </Button>
             <Button
               aria-label="Play/Pause"
               variant="solid"
@@ -137,6 +161,22 @@ export function PlayerBar() {
               transition="transform 0.2s"
             >
               {isPlaying ? <FaPause size={16} /> : <FaPlay size={16} />}
+            </Button>
+            <Button
+              aria-label="Next"
+              variant="ghost"
+              color="white"
+              borderRadius="full"
+              w="32px"
+              h="32px"
+              minW="32px"
+              p={0}
+              onClick={playNext}
+              disabled={!canSkip}
+              _hover={{ transform: "scale(1.05)" }}
+              transition="transform 0.2s"
+            >
+              <FaStepForward size={14} />
             </Button>
           </Stack>
           <Stack direction="row" gap={3} w="100%" align="center">

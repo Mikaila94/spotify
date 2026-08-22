@@ -33,7 +33,7 @@ Selectors could isolate updates and scale to more complex playback behavior. The
 
 ### Keep shared controls global and derived time local
 
-The context owns low-frequency shared state and commands: current song, playing state, the audio reference, song selection, play/pause, and seek. Components that display time sample the audio element locally at the frequency they require.
+The context owns low-frequency shared state and commands: current song, ordered queue, playing state, the audio reference, song selection, play/pause, skip, and seek. Components that display time sample the audio element locally at the frequency they require.
 
 ## Decision
 

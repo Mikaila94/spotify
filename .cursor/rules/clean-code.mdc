@@ -1,0 +1,17 @@
+---
+description: Clean, readable, functional TypeScript and React
+globs: **/*.{ts,tsx}
+alwaysApply: true
+---
+
+# Clean code
+
+Write code a teammate can read once. Prefer small pure functions and explicit contracts over nested guards.
+
+- Transform data. Do not repeat the same absence check through every layer.
+- Narrow `null` / `undefined` at the boundary. After that, work with values.
+- Optional arguments that mean “maybe also do this other thing” are a smell. Take what the function needs.
+- Name the condition instead of chaining `!== undefined` and `!== null`.
+- Prefer `map` / `filter` / a lookup helper over index arithmetic and leftover fallbacks.
+- Do not add defensive checks to silence TypeScript. Fix the type or the algorithm.
+- Functional means values in, values out — not a library, not `pipe` everywhere, not hidden control flow.

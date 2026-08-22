@@ -1,25 +1,73 @@
 "use client";
 
 import { Box, Button, Heading, Table } from "@chakra-ui/react";
+import { FaVolumeUp } from "react-icons/fa";
 import { errorMessage } from "@/shared/http/apiError";
 import type { SongDTO } from "../public";
 import { useSongs } from "./useSongs";
 
 interface SongCatalogProps {
-  selectedSongId: number | null;
-  onSelectSong: (song: SongDTO) => void;
+  currentSongId: number | null;
+  isPlaying: boolean;
+  onSelectSong: (song: SongDTO, songs: SongDTO[]) => void;
   onUnauthorized: () => void;
 }
 
 function formatDuration(ms: number | null) {
-  if (!ms) return "0:00";
+  if (ms === null || ms <= 0) {
+    return "0:00";
+  }
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
+interface CatalogSongRowProps {
+  song: SongDTO;
+  position: number;
+  isCurrent: boolean;
+  isPlaying: boolean;
+  onSelect: (song: SongDTO) => void;
+}
+
+function CatalogSongRow({
+  song,
+  position,
+  isCurrent,
+  isPlaying,
+  onSelect,
+}: CatalogSongRowProps) {
+  const showPlayingIcon = isCurrent && isPlaying;
+  const titleColor = isCurrent ? "green.400" : "white";
+  const rowBg = isCurrent ? "whiteAlpha.200" : "transparent";
+
+  return (
+    <Table.Row
+      onClick={() => onSelect(song)}
+      cursor="pointer"
+      bg={rowBg}
+      boxShadow={isCurrent ? "inset 3px 0 0 0 var(--chakra-colors-green-400)" : undefined}
+      _hover={{ bg: isCurrent ? "whiteAlpha.200" : "whiteAlpha.100" }}
+      aria-current={isCurrent ? "true" : undefined}
+    >
+      <Table.Cell color={isCurrent ? "green.400" : "gray.400"} w="40px">
+        {showPlayingIcon ? <FaVolumeUp size={12} /> : position}
+      </Table.Cell>
+      <Table.Cell color={titleColor} fontWeight={isCurrent ? "semibold" : "normal"}>
+        {song.name}
+      </Table.Cell>
+      <Table.Cell color="gray.300">
+        {song.artists.map((artist) => artist.name).join(", ")}
+      </Table.Cell>
+      <Table.Cell color="gray.300">{song.album?.title ?? "—"}</Table.Cell>
+      <Table.Cell color="gray.400">{formatDuration(song.durationMs)}</Table.Cell>
+    </Table.Row>
+  );
+}
+
 export function SongCatalog({
-  selectedSongId,
+  currentSongId,
+  isPlaying,
   onSelectSong,
   onUnauthorized,
 }: SongCatalogProps) {
@@ -50,7 +98,7 @@ export function SongCatalog({
     );
   }
 
-  if (!songs || songs.length === 0) {
+  if (songs === undefined || songs.length === 0) {
     return (
       <Box>
         <Heading color="white" mb={6}>
@@ -78,25 +126,14 @@ export function SongCatalog({
 
         <Table.Body>
           {songs.map((song, index) => (
-            <Table.Row
+            <CatalogSongRow
               key={song.id}
-              onClick={() => onSelectSong(song)}
-              cursor="pointer"
-              _hover={{ bg: "gray.700" }}
-              bg={selectedSongId === song.id ? "gray.800" : "transparent"}
-            >
-              <Table.Cell color="gray.400">{index + 1}</Table.Cell>
-              <Table.Cell color="white">{song.name}</Table.Cell>
-              <Table.Cell color="gray.300">
-                {song.artists.map((artist) => artist.name).join(", ")}
-              </Table.Cell>
-              <Table.Cell color="gray.300">
-                {song.album?.title || "—"}
-              </Table.Cell>
-              <Table.Cell color="gray.400">
-                {formatDuration(song.durationMs)}
-              </Table.Cell>
-            </Table.Row>
+              song={song}
+              position={index + 1}
+              isCurrent={song.id === currentSongId}
+              isPlaying={isPlaying}
+              onSelect={(selected) => onSelectSong(selected, songs)}
+            />
           ))}
         </Table.Body>
       </Table.Root>

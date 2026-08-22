@@ -75,8 +75,9 @@ Owned data:
 - `Song`, `Artist`, `Album`, `SongArtist`, and `AlbumArtist` read behavior;
 - `Song.lyrics` JSON timed-line documents.
 
-Catalog does not own playback. It reports a selected song through a callback,
-allowing application composition to translate that song to a playback contract.
+Catalog does not own playback. It reports a selected song and the result list
+it came from through a callback, allowing application composition to translate
+that list to a playback queue.
 
 ### Playback
 
@@ -84,7 +85,8 @@ Location: `src/modules/playback`
 
 Evidence:
 
-- selected-track and play/pause state;
+- selected-track, ordered session queue, and play/pause state;
+- next and previous by current track id;
 - browser `Audio` element lifecycle;
 - play, pause, seek, end, and playback-error behavior;
 - persistent player controls;
@@ -93,13 +95,18 @@ Evidence:
 Responsibilities:
 
 - the `PlayableTrack` contract;
-- shared, low-frequency playback state and commands;
+- an ordered session queue of those tracks;
+- shared, low-frequency playback state and commands, including skip;
 - local, high-frequency playback display state;
 - player and lyrics UI.
 
 Owned data:
 
-- browser-only playback state.
+- browser-only playback state, including the current queue.
+
+Playback does not own catalog lists or playlists. Application composition maps a
+source list to `PlayableTrack[]` when playback starts. See
+[ADR 0005](../adr/0005-playback-queue.md).
 
 Lyrics content belongs to catalog. Application composition loads lyrics through
 catalog's SWR hook keyed by the selected song id and passes the lines into
@@ -186,10 +193,11 @@ Modules must not reach into another module's implementation.
 
 The songs screen is an application-level composition example:
 
-1. Catalog reports a selected `SongDTO`.
-2. `app` maps it to playback's smaller `PlayableTrack` and starts audio.
+1. Catalog reports a selected `SongDTO` and the result list it came from.
+2. `app` maps that list to playback's `PlayableTrack` queue and starts audio.
 3. `app` loads lyrics through catalog keyed by the current track id.
 4. Playback receives lyric lines as UI input, not as session state.
+5. Skip stays in playback and looks up the current id in the queue.
 
 Direct module-to-module imports are allowed only when a real business workflow
 requires them and only through `public.ts`, `server.ts`, or `client.ts`.

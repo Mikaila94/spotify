@@ -20,7 +20,7 @@ function toPlayableTrack(song: SongDTO): PlayableTrack {
 
 export function SongsScreen() {
   const router = useRouter();
-  const { currentTrack, playTrack } = usePlayback();
+  const { currentTrack, isPlaying, playTrack } = usePlayback();
 
   const handleUnauthorized = useCallback(() => {
     router.replace("/sign-in");
@@ -36,8 +36,11 @@ export function SongsScreen() {
     <Grid templateColumns="1fr 1fr" gap={6}>
       <Box>
         <SongCatalog
-          selectedSongId={currentTrack?.id ?? null}
-          onSelectSong={(song) => playTrack(toPlayableTrack(song))}
+          currentSongId={currentTrack?.id ?? null}
+          isPlaying={isPlaying}
+          onSelectSong={(song, songs) =>
+            playTrack(toPlayableTrack(song), songs.map(toPlayableTrack))
+          }
           onUnauthorized={handleUnauthorized}
         />
       </Box>

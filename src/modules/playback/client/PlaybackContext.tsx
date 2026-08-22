@@ -9,13 +9,17 @@ import {
   useRef,
   useState,
 } from "react";
+import { canSkip, skip } from "../domain/queue";
 import type { PlayableTrack } from "../public";
 
 interface PlaybackContextValue {
   currentTrack: PlayableTrack | null;
   isPlaying: boolean;
+  canSkip: boolean;
   audioRef: React.RefObject<HTMLAudioElement | null>;
-  playTrack: (track: PlayableTrack) => void;
+  playTrack: (track: PlayableTrack, queue: PlayableTrack[]) => void;
+  playNext: () => void;
+  playPrevious: () => void;
   togglePlayPause: () => void;
   seek: (time: number) => void;
 }
@@ -108,6 +112,7 @@ function useAudioPlayback(
 
 export function PlaybackProvider({ children }: { children: ReactNode }) {
   const [currentTrack, setCurrentTrack] = useState<PlayableTrack | null>(null);
+  const [queue, setQueue] = useState<PlayableTrack[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useAudioElement();
   const handlePlaybackError = useCallback(() => setIsPlaying(false), []);
@@ -126,8 +131,19 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     return () => audio.removeEventListener("ended", handleEnded);
   }, [audioRef]);
 
-  function playTrack(track: PlayableTrack) {
+  function playTrack(track: PlayableTrack, nextQueue: PlayableTrack[]) {
     setCurrentTrack(track);
+    setQueue(nextQueue);
+    setIsPlaying(true);
+  }
+
+  function playAdjacent(delta: number) {
+    const adjacent = skip(queue, currentTrack, delta);
+    if (adjacent === null) {
+      return;
+    }
+
+    setCurrentTrack(adjacent);
     setIsPlaying(true);
   }
 
@@ -146,8 +162,11 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       value={{
         currentTrack,
         isPlaying,
+        canSkip: canSkip(queue, currentTrack),
         audioRef,
         playTrack,
+        playNext: () => playAdjacent(1),
+        playPrevious: () => playAdjacent(-1),
         togglePlayPause,
         seek,
       }}
