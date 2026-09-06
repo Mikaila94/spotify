@@ -134,7 +134,7 @@ Auth forms still use local `fetch` until they share the same read/cache needs.
 * Keep public authentication pages separate from the protected player layout.
 * Protect player pages and music APIs with a server-verified HTTP-only cookie session.
 * Keep persistent playback controls in the protected player layout.
-* Keep an ordered `PlayableTrack` queue in playback for next and previous. Skip looks up the current id, wraps at the ends, and does not store a row index.
+* Keep an ordered `PlayableTrack` queue in playback for next and previous. Skip looks up the current id, wraps at the ends, and does not store a row index. When a track ends, play the next song; the last track pauses in place.
 * Keep low-frequency playback state global and high-frequency derived display state local.
 * Use SWR for catalog list and lyrics reads.
 * Validate untrusted HTTP input and catalog client responses with Zod. API errors use `{ error: string }`.

@@ -33,7 +33,15 @@ Application composition maps a source list to playback tracks and sets the queue
 
 Playback owns an ordered session queue of `PlayableTrack`. `currentTrack.id` is the lookup key. Skip is a playback command. `app` maps catalog results into the queue when a song is selected.
 
-Skip wraps: next on the last track plays the first, previous on the first plays the last. A queue of fewer than two tracks has nothing to skip to. Track end still pauses; it does not auto-advance.
+Skip (the Next/Previous **buttons**) wraps. A queue of fewer than two tracks has nothing to skip to.
+
+Natural end is a different rule. When a song **finishes**, play the next track. When the **last** track finishes, pause and stay on that track. Do not wrap. Do not call `skip()` / `playNext()` on `ended` — those wrap, so album `A → B → C` would restart at `A` forever.
+
+Example, queue `A, B, C`:
+
+* Next on `C` plays `A`.
+* `B` ends by itself → play `C`.
+* `C` ends by itself → pause on `C`.
 
 Playback does not know about playlists. A playlist, when it exists, is another source of `PlayableTrack[]`.
 
@@ -44,7 +52,8 @@ Playback does not know about playlists. A playlist, when it exists, is another s
 * The bar can skip without seeing the catalog table.
 * The queue survives route changes inside the player shell.
 * Catalog still only reports selection; playback still only speaks `PlayableTrack`.
-* A later playlist workflow can reuse skip without a new playback primitive.
+* A later playlist workflow can reuse skip and advance without a new playback primitive.
+* Ending a song continues the album; the last track still goes quiet.
 
 ### Negative
 
@@ -53,4 +62,4 @@ Playback does not know about playlists. A playlist, when it exists, is another s
 
 ## Revisit when
 
-A playlist or other source starts playback, a source wants repeat-off instead of wrap, or ended tracks should auto-advance. Reconsider composition-only skip only if a second source cannot share this queue shape.
+A playlist or other source starts playback, or the listener gets a Repeat control (off / all / one). Repeat would change whether skip and ended share one rule. Reconsider composition-only skip only if a second source cannot share this queue shape.

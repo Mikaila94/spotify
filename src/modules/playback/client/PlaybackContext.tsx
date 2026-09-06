@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { canSkip, skip } from "../domain/queue";
+import { advance, canSkip, skip } from "../domain/queue";
 import type { PlayableTrack } from "../public";
 
 interface PlaybackContextValue {
@@ -124,12 +124,19 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     if (!audio) return;
 
     function handleEnded() {
-      setIsPlaying(false);
+      const next = advance(queue, currentTrack);
+      if (next === null) {
+        setIsPlaying(false);
+        return;
+      }
+
+      setCurrentTrack(next);
+      setIsPlaying(true);
     }
 
     audio.addEventListener("ended", handleEnded);
     return () => audio.removeEventListener("ended", handleEnded);
-  }, [audioRef]);
+  }, [audioRef, queue, currentTrack]);
 
   function playTrack(track: PlayableTrack, nextQueue: PlayableTrack[]) {
     setCurrentTrack(track);

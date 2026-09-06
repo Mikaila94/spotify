@@ -43,3 +43,26 @@ export function skip(
 
   return getAdjacentTrack(queue, current.id, delta);
 }
+
+export function getNextTrack(
+  queue: PlayableTrack[],
+  currentId: number,
+): PlayableTrack | null {
+  const index = queue.findIndex((track) => track.id === currentId);
+  if (index === -1 || index === queue.length - 1) {
+    return null;
+  }
+
+  return queue[index + 1];
+}
+
+export function advance(
+  queue: PlayableTrack[],
+  current: PlayableTrack | null,
+): PlayableTrack | null {
+  if (current === null) {
+    return null;
+  }
+
+  return getNextTrack(queue, current.id);
+}
