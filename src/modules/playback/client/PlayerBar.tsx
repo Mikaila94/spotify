@@ -2,7 +2,14 @@
 
 import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay, FaStepBackward, FaStepForward, FaVolumeUp } from "react-icons/fa";
+import {
+  FaPause,
+  FaPlay,
+  FaStepBackward,
+  FaStepForward,
+  FaVolumeMute,
+  FaVolumeUp,
+} from "react-icons/fa";
 import { useAnimationFrame } from "@/shared/hooks/useAnimationFrame";
 import { usePlayback } from "./PlaybackContext";
 
@@ -13,6 +20,176 @@ function formatTime(seconds: number) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+
+function clamp01(value: number) {
+  return Math.max(0, Math.min(1, value));
+}
+
+function volumeFromClientX(bar: HTMLDivElement, clientX: number) {
+  const rect = bar.getBoundingClientRect();
+  if (rect.width === 0) {
+    return 0;
+  }
+
+  return clamp01((clientX - rect.left) / rect.width);
+}
+
+function VolumeSlider({
+  audioRef,
+}: {
+  audioRef: React.RefObject<HTMLAudioElement | null>;
+}) {
+  const [volume, setVolume] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const lastAudibleVolume = useRef(1);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      setVolume(audio.volume);
+      if (audio.volume > 0) {
+        lastAudibleVolume.current = audio.volume;
+      }
+    }
+  }, [audioRef]);
+
+  function applyVolume(next: number) {
+    const value = clamp01(next);
+    if (audioRef.current) {
+      audioRef.current.volume = value;
+    }
+    if (value > 0) {
+      lastAudibleVolume.current = value;
+    }
+    setVolume(value);
+  }
+
+  function toggleMute() {
+    if (volume > 0) {
+      applyVolume(0);
+      return;
+    }
+
+    applyVolume(lastAudibleVolume.current);
+  }
+
+  function handleMouseDown(event: React.MouseEvent<HTMLDivElement>) {
+    if (!barRef.current) {
+      return;
+    }
+
+    setIsDragging(true);
+    applyVolume(volumeFromClientX(barRef.current, event.clientX));
+  }
+
+  useEffect(() => {
+    if (!isDragging) {
+      return;
+    }
+
+    function handleMouseMove(event: MouseEvent) {
+      if (!barRef.current) {
+        return;
+      }
+
+      applyVolume(volumeFromClientX(barRef.current, event.clientX));
+    }
+
+    function handleMouseUp() {
+      setIsDragging(false);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [audioRef, isDragging]);
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
+      event.preventDefault();
+      applyVolume(volume - 0.05);
+      return;
+    }
+
+    if (event.key === "ArrowRight" || event.key === "ArrowUp") {
+      event.preventDefault();
+      applyVolume(volume + 0.05);
+    }
+  }
+
+  const percent = volume * 100;
+
+  return (
+    <Stack direction="row" gap={2} align="center">
+      <Button
+        aria-label={volume > 0 ? "Mute" : "Unmute"}
+        variant="ghost"
+        color="gray.400"
+        borderRadius="full"
+        w="28px"
+        h="28px"
+        minW="28px"
+        p={0}
+        cursor="pointer"
+        onClick={toggleMute}
+        _hover={{ color: "white", transform: "scale(1.1)" }}
+        transition="transform 0.2s, color 0.2s"
+      >
+        {volume > 0 ? <FaVolumeUp size={14} /> : <FaVolumeMute size={14} />}
+      </Button>
+      <Box
+        ref={barRef}
+        role="slider"
+        tabIndex={0}
+        aria-label="Volume"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(percent)}
+        w="100px"
+        py={2}
+        cursor="pointer"
+        onMouseDown={handleMouseDown}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        onKeyDown={handleKeyDown}
+      >
+        <Box
+          position="relative"
+          h={isHovering || isDragging ? "6px" : "4px"}
+          bg="gray.600"
+          borderRadius="full"
+          transition="height 0.1s"
+        >
+          <Box
+            w={`${percent}%`}
+            h="100%"
+            bg="green.500"
+            borderRadius="full"
+          />
+          {(isHovering || isDragging) && (
+            <Box
+              position="absolute"
+              left={`${percent}%`}
+              top="50%"
+              transform="translate(-50%, -50%)"
+              w="14px"
+              h="14px"
+              bg="white"
+              borderRadius="full"
+              boxShadow="0 2px 8px rgba(0,0,0,0.4)"
+            />
+          )}
+        </Box>
+      </Box>
+    </Stack>
+  );
 }
 
 export function PlayerBar() {
@@ -230,18 +407,7 @@ export function PlayerBar() {
         </Flex>
 
         <Flex align="center" w="200px" justify="flex-end">
-          <Stack direction="row" gap={2} align="center">
-            <FaVolumeUp color="gray.400" size="14px" />
-            <Box
-              w="100px"
-              h="4px"
-              bg="gray.600"
-              borderRadius="full"
-              position="relative"
-            >
-              <Box w="70%" h="100%" bg="green.500" borderRadius="full" />
-            </Box>
-          </Stack>
+          <VolumeSlider audioRef={audioRef} />
         </Flex>
       </Flex>
     </Box>
