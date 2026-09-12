@@ -140,7 +140,8 @@ Auth forms still use local `fetch` until they share the same read/cache needs.
 * Validate untrusted HTTP input and catalog client responses with Zod. API errors use `{ error: string }`.
 * Keep timed lyrics off the song list payload and load them after a track is selected.
 * Playlist names belong to a playlist module and are listed with `where: { userId: session.id }`. The session id comes from the JWT cookie, not the client.
-* GitHub Actions CI runs lint, typecheck, test, and build on `main` and pull requests. There is no auto-deploy until we have a host.
+* GitHub Actions CI runs lint, typecheck, test, and build on `main` and pull requests. It does not migrate and does not deploy.
+* Vercel git integration deploys `main`. The Vercel build runs `prisma migrate deploy` and then `next build` (ADR 0008).
 
 ## Non-goals
 
@@ -157,5 +158,5 @@ These should be decided when a concrete feature creates the requirement:
 * Which routes need server rendering, static generation, metadata, or SEO?
 * How should authentication be verified and protected across pages and APIs?
 * What automated testing mix provides the most value?
-* Where will the application, database, and audio assets be deployed?
+* How should production audio assets be hosted if the git-tracked demo file is not enough?
 * When should search and favorites become real feature boundaries?

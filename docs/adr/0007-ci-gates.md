@@ -49,4 +49,4 @@ No deploy job until we pick a host.
 
 ## Revisit when
 
-We deploy somewhere. Then add CD (platform git integration or a deploy job with real secrets). Add a CI database only if tests start hitting Prisma.
+Vercel git integration is the host (see ADR 0008). CI still does not deploy and still does not migrate. Add a CI database only if tests start hitting Prisma.
