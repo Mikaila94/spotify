@@ -57,7 +57,7 @@ Bruk følgende spørsmål organisert i temaer. Nye spørsmål kan legges til nå
 
 🎯 Ser etter: språkbruk, struktur, bruk av pauser
 
-* Fortell om en gang du måtte forklare noe komplisert på en enkel måte.
+* ~~Fortell om en gang du måtte forklare noe komplisert på en enkel måte.~~
 * Hvordan tilpasser du kommunikasjonen din til ulike målgrupper?
 * Beskriv en situasjon der misforståelser oppsto. Hvordan håndterte du det?
 * Har du noen gang måttet formidle et budskap som du visste ville bli dårlig mottatt?
