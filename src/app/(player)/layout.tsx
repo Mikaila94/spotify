@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AppSidebar } from "@/app/_components/AppSidebar";
 import { getSession } from "@/modules/auth/server";
 import { PlaybackProvider, PlayerBar } from "@/modules/playback/client";
+import { listPlaylistsForUser } from "@/modules/playlist/server";
 
 const SIDEBAR_WIDTH = "250px";
 const PLAYER_HEIGHT = "88px";
@@ -15,6 +16,8 @@ export default async function PlayerShellLayout({
   if (!session) {
     redirect("/sign-in");
   }
+
+  const playlists = await listPlaylistsForUser(session.id);
 
   return (
     <PlaybackProvider>
@@ -30,7 +33,7 @@ export default async function PlayerShellLayout({
         p={4}
         overflowY="auto"
       >
-        <AppSidebar />
+        <AppSidebar playlists={playlists} />
       </Box>
 
       <Box

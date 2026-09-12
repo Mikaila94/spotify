@@ -113,12 +113,34 @@ catalog's SWR hook keyed by the selected song id and passes the lines into
 playback UI. Playback owns highlighting, scrolling, and click-to-seek.
 There is still no independent lyrics workflow, so there is no lyrics module.
 
+### Playlists
+
+Location: `src/modules/playlist`
+
+Evidence:
+
+- listing the signed-in user's playlist names in the player sidebar;
+- `listPlaylistsForUser(userId)` with a required owner filter;
+- the protected `GET /api/playlists` endpoint.
+
+Responsibilities:
+
+- playlist reads scoped to a user id;
+- the `PlaylistSummary` name-list contract.
+
+Owned data:
+
+- the current application use of Prisma's `Playlist` model for that user's lists.
+
+`PlaylistSong` membership is still unused. Catalog still owns songs. Auth still
+owns the session. Application composition passes `session.id` into the playlist
+query. See [ADR 0006](../adr/0006-playlist-ownership.md).
+
 ### Data that is not yet a module
 
-`Playlist` and `PlaylistSong` exist in the Prisma schema and seed, but no route,
-UI, application service, mutation, or authorization rule uses them. A database
-table alone does not establish a business module. They remain unclaimed until
-an implemented playlist workflow reveals the appropriate boundary.
+`PlaylistSong` exists in the Prisma schema and seed, but no workflow reads
+playlist tracks or mutates membership yet. That join stays unclaimed until
+an open-playlist or add-song workflow exists.
 
 ## Application composition
 

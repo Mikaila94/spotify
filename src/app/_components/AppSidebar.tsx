@@ -12,13 +12,14 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { MdHome, MdMusicNote } from "react-icons/md";
 import { SignOutButton } from "@/modules/auth/client";
+import type { PlaylistSummary } from "@/modules/playlist/public";
 
 const navMenu = [
   { name: "Home", icon: MdHome, route: "/" },
   { name: "Songs", icon: MdMusicNote, route: "/songs" },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ playlists }: { playlists: PlaylistSummary[] }) {
   const pathname = usePathname();
 
   return (
@@ -73,6 +74,23 @@ export function AppSidebar() {
           ))}
         </List.Root>
       </nav>
+
+      <Text fontSize="xs" color="gray.500" px={3} mb={2} fontWeight="medium">
+        Playlists
+      </Text>
+      <List.Root mb={6} unstyled>
+        {playlists.length === 0 ? (
+          <List.Item px={3} color="gray.500" fontSize="sm">
+            No playlists yet
+          </List.Item>
+        ) : (
+          playlists.map((playlist) => (
+            <List.Item key={playlist.id} px={3} py={2} color="gray.300" fontSize="sm">
+              {playlist.name}
+            </List.Item>
+          ))
+        )}
+      </List.Root>
 
       <Separator borderColor="gray.700" mt="auto" mb={4} />
       <SignOutButton />
