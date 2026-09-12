@@ -50,7 +50,7 @@ function CatalogSongRow({
       _hover={{ bg: isCurrent ? "whiteAlpha.200" : "whiteAlpha.100" }}
       aria-current={isCurrent ? "true" : undefined}
     >
-      <Table.Cell color={isCurrent ? "green.400" : "gray.400"} w="40px">
+      <Table.Cell color={isCurrent ? "green.400" : "gray.400"} w="48px">
         {showPlayingIcon ? <FaVolumeUp size={12} /> : position}
       </Table.Cell>
       <Table.Cell color={titleColor} fontWeight={isCurrent ? "semibold" : "normal"}>
@@ -113,7 +113,16 @@ export function SongCatalog({
       <Heading color="white" mb={6}>
         Songs
       </Heading>
-      <Table.Root variant="outline" size="sm">
+      <Table.Root
+        variant="outline"
+        size="sm"
+        css={{
+          "& th, & td": {
+            paddingInline: "14px",
+            paddingBlock: "10px",
+          },
+        }}
+      >
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader color="gray.400">#</Table.ColumnHeader>

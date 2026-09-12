@@ -11,6 +11,7 @@ import {
 } from "react";
 import { advance, canSkip, skip } from "../domain/queue";
 import type { PlayableTrack } from "../public";
+import { usePlaybackHotkeys } from "./usePlaybackHotkeys";
 
 interface PlaybackContextValue {
   currentTrack: PlayableTrack | null;
@@ -163,6 +164,13 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       audioRef.current.currentTime = time;
     }
   }
+
+  usePlaybackHotkeys({
+    hasTrack: currentTrack !== null,
+    onPlayPause: togglePlayPause,
+    onNext: () => playAdjacent(1),
+    onPrevious: () => playAdjacent(-1),
+  });
 
   return (
     <PlaybackContext.Provider
