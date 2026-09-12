@@ -24,7 +24,6 @@
 # misc
 .DS_Store
 *.pem
-/public/audio/
 
 # debug
 npm-debug.log*
