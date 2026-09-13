@@ -14,10 +14,7 @@ const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString }),
 });
 
-async function main() {
-  // ---------------------------------------------------------------------------
-  // 0) DEV RESET (safe for dev; remove in prod seeds)
-  // ---------------------------------------------------------------------------
+async function wipeAllRows() {
   await prisma.$transaction([
     prisma.playlistSong.deleteMany(),
     prisma.songArtist.deleteMany(),
@@ -28,6 +25,16 @@ async function main() {
     prisma.artist.deleteMany(),
     prisma.user.deleteMany(),
   ]);
+}
+
+async function main() {
+  // Wipe only when you ask. Default: fill an empty catalog, leave existing users.
+  if (process.env.SEED_RESET === "1") {
+    await wipeAllRows();
+  } else if ((await prisma.song.count()) > 0) {
+    console.log("Seed skipped: catalog already has songs");
+    return;
+  }
 
   // ---------------------------------------------------------------------------
   // 1) Artists

@@ -33,9 +33,11 @@ Vercel already has `DATABASE_URL`. Tables update before the new functions go liv
 
 ## Decision
 
-Add a `vercel-build` script: `prisma migrate deploy && next build --turbopack`.
+Add a `vercel-build` script: `prisma migrate deploy && prisma db seed && next build --turbopack`.
 
-Vercel runs that instead of `build`. GitHub Actions and local `pnpm build` do not migrate.
+Vercel runs that instead of `build`. GitHub Actions and local `pnpm build` do not migrate or seed.
+
+`migrate deploy` always applies schema. Seed does **not** wipe production. It inserts the demo catalog only when there are no songs. A full wipe is local-only: `SEED_RESET=1`. The old seed deleted every user on every run; that must not run on Vercel.
 
 ## Consequences
 
@@ -43,6 +45,7 @@ Vercel runs that instead of `build`. GitHub Actions and local `pnpm build` do no
 
 * A schema change in `prisma/migrations` applies on the next production deploy.
 * A failed migration fails the deploy. We do not ship code that expects missing tables.
+* An empty cloud catalog gets demo songs and the Mikail user on deploy. Existing sign-up users stay.
 
 ### Negative
 

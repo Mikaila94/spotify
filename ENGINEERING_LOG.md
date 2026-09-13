@@ -30,4 +30,4 @@ Short notes after meaningful work. Not a diary.
 
 **Learned:** Laptop Docker, GitHub, and Vercel are three places. Push ships code, not tables. CI must not migrate. Vercel build should. Browser console ≠ server log. Wallet extension noise is not the app.
 
-**Still confused:** (fill in after the next deploy) Did `vercel-build` actually create the tables? Is `JWT_SECRET` set? Did we seed songs?
+**Still confused:** Seed on Vercel is “fill if empty,” not the old wipe. Local reset is `SEED_RESET=1`.

@@ -141,7 +141,7 @@ Auth forms still use local `fetch` until they share the same read/cache needs.
 * Keep timed lyrics off the song list payload and load them after a track is selected.
 * Playlist names belong to a playlist module and are listed with `where: { userId: session.id }`. The session id comes from the JWT cookie, not the client.
 * GitHub Actions CI runs lint, typecheck, test, and build on `main` and pull requests. It does not migrate and does not deploy.
-* Vercel git integration deploys `main`. The Vercel build runs `prisma migrate deploy` and then `next build` (ADR 0008).
+* Vercel git integration deploys `main`. The Vercel build runs `prisma migrate deploy`, then `prisma db seed` (empty catalog only), then `next build` (ADR 0008).
 
 ## Non-goals
 
