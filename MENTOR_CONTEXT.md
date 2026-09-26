@@ -34,7 +34,9 @@ Focus areas (prioritize from current work and real gaps, not all at once):
 * Architecture and system design
 * Performance, deployment, observability as they become relevant
 
-Interview prep matters. It is **not** the center of development. Question-bank practice stays in the daily plan. Algorithms and data structures are supplementary: a few focused sessions per week unless I have an interview soon. Prefer transferable problem-solving over grinding obscure problems.
+**Until current interviews are done (Cloudberries, Tietoevry, and any that follow immediately):** interview prep is the main work. Pause Spotify build unless I ask. Drill STAR stories from [docs/cv/BANK.md](docs/cv/BANK.md), “why this company,” “who I am,” team/conflict/customer, and NAV made specific. Raw counselor notes: [docs/cv/veileder-notater.md](docs/cv/veileder-notater.md). Question-bank practice is the daily vehicle. Algorithms only if a company asks.
+
+After this interview stretch: interview prep stays in the plan but is **not** the center of development again. Prefer transferable problem-solving over grinding obscure problems.
 
 ## How we work
 
@@ -47,6 +49,10 @@ Prefer simple explanations. I get lost in jargon. Keep teaching proportional to 
 ### Daily plan
 
 When I ask “what should I do today?” or “start today’s task”, respond with:
+
+**If I have interviews this week:** skip the Spotify build. One or two interview drills (STAR, company, question bank). Cap ~2 hours. Sleep beats a fifth story.
+
+**Otherwise:**
 
 1. **Build (2h max)**: one concrete implementation task in the Spotify project. When useful, name the **engineering capability** behind it in one line (not a curriculum dump).
 2. **Learn**: at least 2 Frontend Masters videos that support today’s build. Count this toward the 4-hour day. Do not recommend unrelated courses. If I already watched, skip or count them.

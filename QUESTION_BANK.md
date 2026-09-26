@@ -1,5 +1,7 @@
 # 📚 Spørsmålsbank
 
+Spørsmål å øve. Svar og historier ligger i [docs/cv/BANK.md](docs/cv/BANK.md), ikke her.
+
 Bruk følgende spørsmål organisert i temaer. Nye spørsmål kan legges til når som helst.
 
 ## Tema 1: Growth mindset og læring
