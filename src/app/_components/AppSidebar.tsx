@@ -84,11 +84,30 @@ export function AppSidebar({ playlists }: { playlists: PlaylistSummary[] }) {
             No playlists yet
           </List.Item>
         ) : (
-          playlists.map((playlist) => (
-            <List.Item key={playlist.id} px={3} py={2} color="gray.300" fontSize="sm">
-              {playlist.name}
-            </List.Item>
-          ))
+          playlists.map((playlist) => {
+            const route = `/playlists/${playlist.id}`;
+
+            return (
+              <List.Item key={playlist.id} p="0">
+                <LinkBox>
+                  <LinkOverlay
+                    asChild
+                    display="block"
+                    px="3"
+                    py="2"
+                    borderRadius="md"
+                    fontSize="sm"
+                    color={pathname === route ? "white" : "gray.300"}
+                    bg={pathname === route ? "gray.800" : "transparent"}
+                    _hover={{ bg: "gray.800", color: "white" }}
+                    transition="all 0.2s"
+                  >
+                    <NextLink href={route}>{playlist.name}</NextLink>
+                  </LinkOverlay>
+                </LinkBox>
+              </List.Item>
+            );
+          })
         )}
       </List.Root>
 

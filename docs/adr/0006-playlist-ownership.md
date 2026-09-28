@@ -48,4 +48,4 @@ Today we only show names. Opening a playlist must check that same owner on that 
 
 ## Revisit when
 
-We open a playlist, add songs, or show public lists.
+We add songs to a playlist or show public lists. Opening one playlist is decided in [ADR 0009](0009-open-playlist-by-id.md).

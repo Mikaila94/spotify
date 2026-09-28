@@ -140,6 +140,7 @@ Auth forms still use local `fetch` until they share the same read/cache needs.
 * Validate untrusted HTTP input and catalog client responses with Zod. API errors use `{ error: string }`.
 * Keep timed lyrics off the song list payload and load them after a track is selected.
 * Playlist names belong to a playlist module and are listed with `where: { userId: session.id }`. The session id comes from the JWT cookie, not the client.
+* Opening one playlist fetches it with `where: { id, userId }` and answers 404 when there is no row, so another user's playlist is indistinguishable from a missing one (ADR 0009).
 * GitHub Actions CI runs lint, typecheck, test, and build on `main` and pull requests. It does not migrate and does not deploy.
 * Vercel git integration deploys `main`. The Vercel build runs `prisma migrate deploy`, then `prisma db seed` (empty catalog only), then `next build` (ADR 0008).
 

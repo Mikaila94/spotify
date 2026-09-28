@@ -2,6 +2,7 @@
 
 import { Box, Button, Heading, Table } from "@chakra-ui/react";
 import { FaVolumeUp } from "react-icons/fa";
+import { formatDuration } from "@/shared/format/duration";
 import { errorMessage } from "@/shared/http/apiError";
 import type { SongDTO } from "../public";
 import { useSongs } from "./useSongs";
@@ -11,15 +12,6 @@ interface SongCatalogProps {
   isPlaying: boolean;
   onSelectSong: (song: SongDTO, songs: SongDTO[]) => void;
   onUnauthorized: () => void;
-}
-
-function formatDuration(ms: number | null) {
-  if (ms === null || ms <= 0) {
-    return "0:00";
-  }
-  const minutes = Math.floor(ms / 60000);
-  const seconds = Math.floor((ms % 60000) / 1000);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
 interface CatalogSongRowProps {

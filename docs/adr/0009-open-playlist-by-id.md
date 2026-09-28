@@ -1,6 +1,6 @@
 # ADR 0009: Opening a playlist fetches it by id and owner, and answers 404
 
-* Status: Proposed — decided, not yet implemented
+* Status: Accepted
 * Date: 2026-09-25
 
 ## Context
