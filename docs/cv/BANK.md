@@ -1,240 +1,158 @@
 # Historie-bank
 
-Ammunisjon til intervjuer, søknader og CV. Ikke spørsmålslisten — den ligger i [QUESTION_BANK.md](../../QUESTION_BANK.md).
+Si kortene høyt. Ett kort per historie. Ikke finn på. Spørsmålene ligger i [QUESTION_BANK.md](../../QUESTION_BANK.md). Rå notater: [veileder-notater.md](veileder-notater.md).
 
-Rå notater fra veileder: [veileder-notater.md](veileder-notater.md).
-
-Kildene i denne mappen er PDF-er. Denne filen er det vi *øver*. Status:
-
-- **fra CV** — fakta ligger i prosjekt-CV / konsulentprofil. Utkast, ikke øvd høyt.
-- **hull** — veileder ba om det, CV sier nesten ingenting. Fyll med stikkord før neste intervju.
-
-Ikke finn på. Hvis du ikke husker, la kortet stå som hull.
-
-## STAR
-
-1. **Situasjon** — hvor, hvem, når
-2. **Problem** — hva var galt / hva skulle løses
-3. **Min rolle** — hva *du* eide
-4. **Hva jeg fikk til** — konkret
-5. **Hva jeg lærte** — én setning du gjør annerledes nå
-
-Mål: ~90 sekunder høyt.
+Hvis du ikke husker en detalj, si det. CV-fakta du kan bruke uten å grave: [nav.no/dagpenger](https://www.nav.no/dagpenger), juni 2022–nov 2023. Next.js. Historiske versjoner for saksbehandlere. Sanity NO/EN. WCAG 2.1 og tilgjengelighetserklæringer. SEO. Aksel / frontend-forum. Avpublisering av gammel løsning.
 
 ---
 
-## Veileder → spørsmål → kort
+## Intro
 
-| Han ba om | Spørsmål i banken (typisk) | Kort under |
-| --- | --- | --- |
-| Suksesshistorier | Tema 6: suksesshistorie, stolthet, verdi | NAV, Fremtind oppsigelse, AppLab |
-| Team | Tema 2: trygghet, tillit, kultur | NAV innholdsteam, Mimiro bibliotek, Fremtind lead |
-| Konflikter / uenighet | Tema 2: uenighet, dårlig kjemi | **hull** |
-| Kunder | Tema 6: verdi for andre; Tema 2: relasjoner | Aker BP, Fremtind, Avinor, NAV saksbehandlere |
-| Teknisk løst | Tema 7 + “fortell om en leveranse” | Sanity/UU/SEO, Jøkul, Pulsen, Statnett |
-| Diktasjon | Teknisk suksess | **hull** |
-| Faglig utvikling / meningsfullt | Tema 4 + “viktigste jeg har lært” | NAV dagpenger (spesifiser) |
-| Hvorfor dem | “Hvorfor vil du jobbe her?” | Cloudberries, Tietoevry |
-| Hvem er jeg? | Tema 6: i en gruppe på fem, X-faktor | **hull** (utkast under) |
-| Entusiasme | Ligger i *hvordan* du sier hvorfor-dem og NAV | Øves, ikke et eget kort |
+Hei, jeg heter Mikail. Jeg har en mastergrad i datateknikk fra NTNU. Jeg har jobbet over åtte år som utvikler, hovedsakelig frontend, men det siste har jeg fokusert mer på fullstack og arkitektur.
 
----
+Et prosjekt jeg er stolt av er den nye dagpengesiden. Jeg var bindeleddet mellom den tekniske løsningen og innholdsdesignerne. Vi jobbet tett med ukentlige avklaringer, og bygde innhold og nettside samtidig.
 
-## Hva CV allerede har vs. det som mangler
+Kunden var fornøyd med samarbeidet, og resultatet ble en mer brukerorientert nettside.
 
-**Har vi (bruk dette, ikke vent på hukommelse):**
+Sanity, UU og URL bare hvis de graver.
 
-- NAV: ny produktside [nav.no/dagpenger](https://www.nav.no/dagpenger). Next.js. Tverrfaglig innholdsteam. Historiske versjoner for saksbehandlere. Sanity-skjemaer NO/EN. UU WCAG 2.1 og tilgjengelighetserklæringer. SEO. Aksel / frontend-forum. Avpublisering av gammel løsning.
-- Fremtind: lead frontend. Kjøp, digital aksept, helsevurdering. Jøkul. Selvbetjent oppsigelse (mindre manuell behandling). Dyreforsikring, NSF/SAGA. Delt GitHub-repo, Bitbucket → GitHub, test-hub.
-- Statnett AUTOBAL: verktøy til landssentralen, Angular, designsystem, komplekst energidomene.
-- Aker BP Noise Boys: eneste frontend, HMS, iterasjon med folk på plattform. **Kunden sa at du håndterte ansvaret bra.**
-- Avinor: lead, prototype på touch-skjerm i Bodø, kart + analyse.
-- Mimiro: komponentbibliotek som felles språk utvikler/designer.
-- AppLab PocketExam: nest beste app.
-- Webstep Pulsen: hele vertikalen, React/Vite + Spring Boot/Kotlin, KPI på storskjerm.
-- Sertifiseringer: HTML5, ISTQB, CPUX-F. Master NTNU, interaksjonsdesign og spillteknologi.
+Øv mot: åpning i intervjuet. Hvem er jeg.
 
-**Mangler (veileder vil ha det, CV gir det ikke):**
+## Hvorfor frontend
 
-- Diktasjonsfunksjonen — ikke nevnt i noen PDF.
-- En konkret konflikt / uenighet (uten å gjøre den andre til skurk).
-- Tall: hvor mange brukere, hvor mye mindre manuell behandling, ranking, før/etter.
-- “Hvem er jeg?” i dine ord. Konsulentprofilen er tredjeperson-salg.
-- Hvorfor Cloudberries / Tietoevry (må være om *dem*, ikke “jeg trenger jobb”).
-- Spotify-siden: deploy, eierskap, auth — nytt, ikke i CV ennå. Bruk bare hvis de spør om sideprosjekt / læring nå.
+Det var det første jeg bygde. AppLab og Ace, native og React Native. Det ble bare sånn. Jeg liker det visuelle, så jeg ble værende.
 
----
+Ikke si «tilfeldig». Si «det ble bare sånn». NTNU, CPUX og NAV bare hvis de graver.
 
-## Kort: suksess og mening
+Øv mot: hvorfor startet du med frontend.
 
-### NAV dagpenger — produktside (fra CV)
+## NAV
 
-Veileder: vær mer spesifikk. Dette *er* det spesifikke.
+Folk skulle finne frem, forstå og stole på innholdet. Jeg eide frontend, Sanity-skjemaene og at redaktørene kunne oppdatere uten å vente på meg. Siden ligger på nav.no/dagpenger.
 
-- **Situasjon:** NAV, juni 2022–nov 2023. Ny produktside for dagpenger. Innholdsteam: innholdsdesignere + utviklere. Mål: folk finner frem, forstår, stoler på at innholdet er riktig.
-- **Problem:** Gammel side og gammelt innhold skulle erstattes. Saksbehandlere trengte historikk. Innhold på norsk og engelsk. UU og synlighet i søk.
-- **Min rolle:** Frontend (Next.js). Side + historiske versjoner. Sanity-skjemaer sammen med innholdsdesignere. UU (WCAG 2.1) og tilgjengelighetserklæringer. SEO-undersøkelse og dokumentasjon. Innspill i Aksel og frontend-forum. Vedlikehold og avpublisering av gammel løsning.
-- **Hva jeg fikk til:** Siden er lansert: nav.no/dagpenger. Saksbehandlere kan se gamle versjoner. Redaktører oppdaterer i Sanity uten å vente på utvikler til hver tekst.
-- **Hva jeg lærte:** Tilgjengelighet er en del av om løsningen virker, ikke pynt. Semantisk HTML og det å *annonsere* resultater (se kalkulator-kortet). Hvis bare de som ser skjermen får svaret, er funksjonen ikke ferdig.
-- **Øv mot:** suksesshistorie, meningsfullt arbeid, ulike målgrupper (bruker vs saksbehandler vs innholdsdesigner), UU/SEO teknisk.
+Hvis de graver: kalkulatoren viste svaret visuelt. Med skjermleser fikk du ikke vite at det kom et resultat. Jeg fikset det med semantisk HTML, så resultatet ble annonsert. Detaljen (aria-live, overskrift eller fokus) husker jeg ikke — ikke dikt den. Læringen: hvis bare de som ser skjermen får svaret, er funksjonen ikke ferdig.
 
-### Fremtind — selvbetjent oppsigelse (fra CV)
+Øv mot: suksesshistorie. Verdi for andre. Kunde. Ulike målgrupper. Hvordan vet du at du gjør en god jobb. En feil som gjorde deg bedre, er kalkulatoren.
 
-- **Situasjon:** Lead frontend, personforsikring, SpareBank 1 og DNB.
-- **Problem:** Oppsigelse krevde manuell behandling.
-- **Min rolle:** Bygge selvbetjening, i tråd med Jøkul, samme stil for to banker.
-- **Hva jeg fikk til:** Selvbetjent oppsigelse. CV: reduserte behov for manuell behandling. *(tall hvis du husker)*
-- **Hva jeg lærte:** Suksess var at kunden kunne si opp selv — ikke at vi hadde levert en ny side.
-- **Øv mot:** suksess, kunde, teknisk i et designsystem.
+## Statnett — stille feil
 
-### AppLab PocketExam (fra CV)
+Verktøy for operatørene som balanserer strømproduksjon mot forbruk. Appen så normal ut, men tallene hadde sluttet å oppdatere seg. Et feilet kall drepte strømmen i stillhet, og skjermen ble stående med gamle tall.
 
-Kort, tidlig, konkret: nest beste app, ekte studenter. Bruk hvis de vil ha “første gang du leverte noe folk brukte.” Ikke hovedhistorien.
+Jeg meldte avvik. Så tok jeg det opp i frontend-forumet og ba alle sjekke feilhåndtering i sine egne strømmer. Vi fant enda en produksjonsfeil.
 
-### Webstep Pulsen (fra CV)
+Hvis du ikke skjønner gravet, si: Hva mener du? La dem peke. Ikke fyll med code review og debug mens du gjetter.
 
-Nåværende: hele stakken, storskjerm, KPI. Bra mot “fullstack / eierskap.” Svakere mot “meningsfullt for sluttbruker” enn NAV.
+Forumet: Jeg beskrev feilen. Appen så normal ut, men et feilet kall hadde drept strømmen, så tallene sto stille. Jeg ba folk sjekke sine egne strømmer, om en feil der også kunne dø i stillhet. Det var sånn vi fant den andre.
 
----
+Koden: Detaljene husker jeg ikke. Rettingen var å håndtere feilen i strømmen i stedet for å la den dø.
 
-## Kort: team
+Det farligste er at det ser ut til å virke. Selve fiksen husker jeg ikke. Si det.
 
-### NAV innholdsteam (fra CV + deg)
+Også svaret på «gikk galt i samarbeid». Jeg eide ikke alle strømmene. Jeg eide å si ifra. Historie nummer to er kortet under, frontend som så ferdig ut.
 
-Tverrfaglig. Dere bygde innhold og teknikk *samtidig*. Sanity-skjemaer sammen med innholdsdesignere.
+Øv mot: gikk galt i samarbeid. Tok ledelsen da ingen andre gjorde det. Mer enn min egen sak. Hjelpe andre å bli bedre. Feil i produksjon.
 
-**Ditt bidrag utover kode (sagt 2026-09-15):** Jeg satt i møter med innholdsdesignerne og avklarte hva vi faktisk trengte — for eksempel hvilke komponenter innholdet krevde. Jeg oversetter mellom hva innholdet skal si og hva vi må bygge.
+## Statnett — observables
 
-*(fyll når du orker: noe som var vanskelig i det samarbeidet — misforståelse, skjema som ikke passet innholdet, e.l.)*
+Observables i Angular satt ikke. Jeg parprogrammerte med en som kunne det, leste dokumentasjon, og debugga verdier i strømmen for å se hvordan de endret seg. Jeg trengte å se det. Reaktivt er en annen måte å tenke på.
 
-### Mimiro — komponentbibliotek (fra CV)
+Øv mot: oppdaget at du ikke var god nok. Lære noe nytt raskt.
 
-Biblioteket var kommunikasjonsverktøy mellom utviklere og designere — samme “atom/molekyl”-greia, men her hadde det et navn og et repo.
+## Frontend som så ferdig ut
 
-### Fremtind / Avinor — lead (fra CV)
+Sted: ikke husket.
 
-Lead frontend. Hva betydde lead *der*? Mentoring, prioritering, designforum? *(fyll)*
+Vi skulle gjøre ferdig frontend først. En kollega sa at vi burde starte deler av backend samtidig, fordi deler av frontend fortsatt ikke var ferdig. Komponentene var laget, og frontend så ferdig ut. API-kallene manglet. Da vi begynte på backend, så jeg at flaten ikke var ferdig likevel.
 
----
+Hva jeg gjorde etterpå: ikke husket. Ikke finn på det.
 
-## Kort: kunde
+Øv mot: mest utbytte av feedback. Gikk galt i samarbeid, som historie nummer to etter Statnett. Se en problemstilling fra flere sider. Kollegaen så backend. Jeg så en flate som så ferdig ut.
 
-### NAV — kunderelasjon og bindeleddsrollen (dine ord, 2026-09-24)
+## PR uten beskrivelse
 
-Svar på “hvordan er du med kunder?” / “liker du å være ute hos kunde?”. Reparerer det som glapp hos Tietoevry.
+Jeg lagde pull requests med nesten ingen beskrivelse. En kollega sa at jeg måtte skrive mer, og tegne flyten når det hjalp. Nå skriver jeg hva som endret seg og hvorfor, så den som leser koden ser det samme som jeg så.
 
-- **Situasjon:** Konsulent i flere år, kundearbeid er hverdagen. Beste eksempel: NAV, ny dagpengeside med mer brukerorientert innhold.
-- **Min rolle:** Bindeledd mellom innholdsdesignerne og den tekniske løsningen. Bygde Sanity-skjemaene sammen med dem så de kunne publisere selv. Ukentlige statusmøter og avklaringsmøter, tilbakemeldinger begge veier. Ansvar for tilgjengelighet, designsystem og deploy til produksjon.
-- **Konkret eksempel:** Dagpengekalkulatoren viste svaret visuelt. Med skjermleser fikk du ikke vite at det kom et resultat. Det fikset jeg.
-- **Resultat:** Side der folk lettere finner fram til hva de har rett på. Redaktører slipper å vente på utvikler for hver tekstendring.
-- **Regel for formen:** vis relasjonen med ett eksempel — ikke påstå at “vi hadde et godt kundeforhold”.
+Øv mot: en feil som gjorde deg bedre. Mest utbytte av feedback.
 
-### Aker BP Noise Boys (fra CV) — sterkest på tilbakemelding
+## Feedback
 
-- Eneste frontend, en av få utviklere.
-- HMS-team. Iterasjoner. Tilbakemelding fra folk på plattform.
-- **Kunden ga tilbakemelding om at du håndterte ansvaret svært bra.** Selvstendig, sparret med fageksperter.
+Jeg får mest ut av feedback som viser meg et hull jeg ikke ser selv. Frontend som så ferdig ut, og PR uten beskrivelse.
 
-**Øv mot:** “hvordan er du med kunder?”, tillit, ta ansvar når ingen andre tar det.
+Øv mot: mest utbytte av feedback. Ta imot feedback.
 
-### Andre kundeflater (fra CV, tynnere)
+## Kritikk jeg er uenig i
 
-- Fremtind: sluttkunde i bank/forsikring (kjøp, oppsigelse).
-- NAV: innbygger + saksbehandler.
-- Avinor: passasjer på storskjerm i Bodø.
-- OPF: redaktører + internt kundeforhold.
+Jeg hører argumentet ferdig. Hvis jeg fortsatt er uenig, sier jeg hvorfor, saklig.
 
----
+TDD: på en funksjon som plusser to tall ser jeg poenget. På et komplekst skjema der jeg ikke vet kontrakten ennå, lager jeg det først og tester det som ble kontrakten. Jeg er ikke mot TDD. Jeg er mot å tvinge det på noe jeg ikke har forstått ennå.
 
-## Kort: teknisk løst
+Øv mot: kritikk du er uenig i. Hvordan håndterer du uenighet.
 
-Tre du kan velge mellom, ikke alle i ett intervju:
+## Egenskaper
 
-1. **NAV:** Next + Sanity-skjema + UU + SEO + historikk — innhold som kode og kontrakt.
-2. **Fremtind:** designsystem Jøkul, delt GitHub-repo, test-hub, flytte Bitbucket → GitHub.
-3. **Statnett:** Angular / designsystem i et regel- og tidskritisk domene (landssentralen). Hold deg til det du faktisk rørte. CV-en er mer kunde-story enn din funksjon — **spesifiser én skjerm eller ett problem** før fredag hvis du vil bruke den.
+**A — Empati.** Hos Statnett var en kollega forvirret på Angular Forms. Det er sentralt i hvordan vi bygger apper der. Jeg tok en økt med henne og kodet på samme skjerm.
 
-### NAV — dagpengekalkulatoren og UU (fra deg, ikke i CV)
+**B — Mer enn min egen sak.** Den stille feilen over. Jeg lot det ikke bli «min skjerm, mitt problem».
 
-Står ikke i noen PDF. Kom fram i øving 2026-09-14.
+**Svakhet.** Jeg blir utålmodig når jeg dras mellom mange oppgaver samtidig. Jeg jobber best i ett team over tid. Jeg sier ifra.
 
-- **Situasjon:** NAV, dagpenger. Kalkulator der bruker regner ut hva hen kan få.
-- **Problem:** Resultatet dukket opp visuelt. Bruker du skjermleser, får du ikke vite at det kom et svar.
-- **Min rolle:** Semantisk HTML, og annonsere resultatet så det når fram uten å se skjermen.
-- **Hva jeg fikk til:** *(fyll: hva ble faktisk endret? aria-live, overskrift, fokus?)*
-- **Hva jeg lærte:** Hvis bare de som ser skjermen får svaret, er funksjonen ikke ferdig.
-- **Øv mot:** teknisk løst, meningsfullt arbeid, UU, “hvordan vet du at du gjorde en god jobb?”
+Øv mot: A er kollegaen som slet med Angular Forms. B er den stille feilen. Svakheten er hva du trenger for å prestere, og det perfekte teamet.
 
-### Statnett — appen så ut til å virke, men dataene hadde stoppet (dine ord, 2026-09-24)
+## Team, kunde, suksess
 
-Sterkeste historien på “produksjonsfeil”, “ta ansvar uten å være sjef” og “hvordan hjelper du andre til å bli bedre”. Høyere innsats enn Spotify-historien.
+Ikke nye historier. Åpne med setningen, så NAV eller Statnett.
 
-**Fire kroker:** skjermen så levende ut / feil i datastrømmen som ingen håndterte / tok det opp i frontend-forum / fant enda en feil.
+**Team.** Jeg jobber best tett med folk som kan noe annet enn meg. Hos NAV avklarte vi hva innholdet krevde av teknikken, så vi bygde siden og innholdet samtidig.
 
-- **Situasjon:** Statnett, verktøy for operatørene i landssentralen som balanserer strømproduksjon mot forbruk.
-- **Problem:** Produksjonsfeil der applikasjonen så normal ut, men tallene hadde sluttet å oppdatere seg. Årsak: manglende feilhåndtering i datastrømmene (observables). Et feilet API-kall drepte strømmen i stillhet, og skjermen ble stående med gamle tall.
-- **Min rolle:** Meldte avvik. Antok at samme hull fantes flere steder, og tok det opp i frontend-forumet — ba alle gå gjennom sine egne strømmer og sjekke feilhåndtering.
-- **Hva jeg fikk til:** Avdekket enda en produksjonsfeil gjennom den gjennomgangen.
-- **Hva jeg lærte:** Det farligste er ikke at noe krasjer. Det farligste er at det ser ut til å virke.
-- **Hvis de spør om selve fiksen:** Du husker ikke detaljene. Si det. “Rettingen var å håndtere feilen i strømmen i stedet for å la den dø, men detaljene husker jeg ærlig talt ikke — det jeg tok med meg var mønsteret.” Ikke dikt en teknisk detalj.
+**Perfekt team.** Det finnes ikke. Jeg vil være i ett team over tid. Jeg vil sitte med folk som kan noe annet enn meg. Jeg vil at det er rom for å ta opp mer enn min egen sak — Statnett-forumet.
 
-### Spotify-prosjektet — 500 i produksjon (2026-09-13)
+**Kunde.** Jeg er hos kunden som utvikler. Hos NAV var jeg bindeleddet mot innholdsdesignerne. Ukentlige avklaringer, skjemaer sammen med dem, så de kunne publisere selv.
 
-Svar på “fortell om en feil i produksjon du har debugget”. Ferskeste historien du har — ingen graving i 2022.
+**Suksess.** NAV-kortet. Hvis de vil ha et annet: hos Fremtind bygde vi selvbetjent oppsigelse for kunder i SpareBank 1 og DNB. Suksess var at kunden kunne si opp selv. Tall på mindre manuell behandling har du ikke — ikke dikt dem.
 
-- **Symptom:** Sign-up svarte 500 i prod.
-- **Blindspor:** Nettleserkonsollen var full av støy fra en krypto-utvidelse. Sa ingenting om serveren. Gikk til serverloggen i Vercel i stedet.
-- **Ekte årsak:** Prisma nådde databasen, men tabellen `User` fantes ikke (`P2021`). Deploy hadde kjørt bygget, men ingen hadde kjørt migreringene mot skydatabasen.
-- **Valget (det viktigste):** Kunne fikset det med én kommando lokalt. Ba i stedet om at det ble automatisk — migreringen ligger nå i `vercel-build`, så deploy enten oppdaterer tabellene eller feiler. Se [ADR 0008](../adr/0008-production-migrations.md).
-- **Seed:** Gamle seed slettet alle brukere før den la inn demodata. Endret til å bare fylle en tom katalog, så prod-brukere overlever deploy.
-- **Hva jeg lærte:** Git flytter kode, migrering flytter tabeller. Noe som kjører automatisk i prod må tåle å kjøre to ganger.
-- **Om AI:** Ikke skjul det. Si “jeg brukte AI til å tolke feilmeldingen, og verifiserte mot serverloggen før jeg gjorde noe.” Ikke “jeg spurte AI og fikk svaret”.
+Øv mot: hvordan er du i et team. Det perfekte teamet. Hvordan er du med kunder. Suksesshistorie.
 
-### Diktasjon (hull)
+## Aker BP — hvis de vil ha ansvar uten team rundt deg
 
-Ikke i CV. Fyll før du bruker den:
+Eneste frontend. HMS. Iterasjoner med folk på plattform. Kunden sa at du håndterte ansvaret bra.
 
-- Hvor? (NAV / annet)
-- Situasjon, problem, rolle, resultat, læring
-- Hva var teknisk (Web Speech, manuell, UU)?
+Øv mot: tok ansvar da få andre kunne ta det. Hvordan er du med kunder.
 
----
+## Viktigste jeg har lært
 
-## Kort: konflikt / uenighet (hull)
+Det viktigste jeg har lært det siste året er å få tenkingen ut av hodet og inn i rommet.
 
-CV har null. Trenger én ærlig: uenighet om løsning, press på snarvei, Bitbucket vs GitHub, innhold vs teknikk. Du, den andre, hva du sa, hva som ble beslutningen, hva du lærte. Ingen skurker.
+Jeg tegner problemet før jeg bygger: hvem eier hva, og hva som skal være sant når vi er ferdige. Jeg tygger det med AI for å forstå det, så jeg kan ta valget selv. Når noe bremser, legger jeg fram hva jeg har prøvd og hvor det stoppet, så vi kan velge sammen.
 
----
+Hos NAV satt jeg med innholdsdesignerne hver uke. Vi sa høyt hva innholdet krevde av teknikken. Da bygde vi siden og innholdet samtidig, og redaktørene kunne publisere selv.
 
-## Kort: hvem er jeg / hvorfor dem (hull + utkast)
+Øv mot: det viktigste du har lært det siste året. Endret arbeidsvaner i en tid med AI.
 
-### Hvem er jeg?
+## Handelsbanken — tidlig uke 41
 
-Konsulentprofilen sier “allsidig fullstack, proaktiv lagspiller.” Det er deres salgstekst. Skriv 4–5 setninger i jeg-form. Utkast å rette på, ikke å pugge:
+In-house mobilbank. React Native, native iOS/Android, Java/Spring Boot, Kubernetes/Azure. De vil ha UX, samarbeid, dele kunnskap. Bakgrunnssjekk.
 
-> Jeg er frontend-utvikler, master fra NTNU (interaksjonsdesign). Jeg har levert hos NAV, Statnett, Fremtind og flere som konsulent. Jeg trives der UI møter regler og ekte brukere. I team er jeg ofte den som oversetter mellom fag, design og kode. Jeg bruker AI som verktøy, men jeg vil eie beslutningen.
+**Intro.** Samme tre pust, bytt første: jeg startet med native apper og React Native, og har siden bygget brukervendte flater på web — blant annet forsikring i bankkanal og NAV.
 
-### Hvorfor Cloudberries?
+**Hvorfor dem.** Jeg vil være i ett produkt over tid. Dere bygger mobilbanken in-house. Jeg har gjort kundevendte løsninger i bank og forsikring hos Fremtind.
 
-De: ansatt-eid, konsulenten i sentrum, offentlig og privat, tverrfaglig hos kunde. De profiler **seniors** med lang fartstid — ikke later som du er det.
+**Hvorfor meg.** Dere ser etter React Native. Jeg har gjort native og React Native hos AppLab og Ace Education. Det er flere år siden. Etter det har jeg jobbet med React på web. Jeg kan ikke si at jeg eier RN-stacken deres. Det jeg kan si, er at jeg kan React, og at jeg hos Fremtind laget selvbetjent oppsigelse folk skulle få til selv. RN må jeg friske opp.
 
-Utkast: kunde + NAV-mening + bli hørt + oversette. Fyll med *din* grunn, én konkret.
+**Når de spør om React Native.** Jeg har bygget native iOS og Android, og en felles React Native-app, hos Ace Education og NTNU AppLab. Det er noen år siden. Siden da har jeg jobbet i React på web. Jeg later ikke som jeg er RN-spesialist i morgen. Jeg kan React, jeg har laget apper, og jeg lærer stacken i et team jeg blir i.
 
-### Hvorfor Tietoevry?
+Ikke si at du er mobilutvikler til daglig. Ikke si Kubernetes. Ikke lim «idé til implementering» eller Spring Boot som om det er jobben du søker på. Egenskaper: A, så B, så svakhet. Kunde her er bankkunden — Fremtind eller kalkulatoren, ikke «jeg er hos kunden som utvikler».
 
-Øves etter Cloudberries. De: store teamleveranser, React, kunde, ofte designsystem/Storybook. Samme tre historier. Ny “hvorfor”-blokk.
+**Spør dem.**
 
----
+1. Appen har allerede et fundament. Hva er det kundene ikke får til i den i dag?
+2. Hva skal være annerledes for kunden om et halvt år?
+3. Hva bestemmer teamet i Oslo selv?
 
-## Tom mal (kopier)
+Øv mot: hvorfor Handelsbanken. Hvorfor meg. React Native-hullet. Spørsmålene du stiller dem.
 
-```
-### Tittel
-- Status: hull | fra CV | øvd
-- Situasjon:
-- Problem:
-- Min rolle:
-- Hva jeg fikk til:
-- Hva jeg lærte:
-- Øv mot:
-```
+## Hull — ikke fyll i intervjuet
+
+- Konflikt / uenighet. Ingen historie ennå.
+- Diktasjon. Ikke i CV.
+- Hvorfor Cloudberries. Hvorfor Tietoevry. Må være om dem.
+- Mimiro, Avinor, Pulsen, AppLab: sant, men ikke hovedhistorier. AppLab er «nest beste app» hvis de vil ha første gang folk brukte noe du laget. Pulsen er fullstack-eierskap, svakere på mening enn NAV.

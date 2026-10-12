@@ -8,12 +8,12 @@ Bruk følgende spørsmål organisert i temaer. Nye spørsmål kan legges til nå
 
 🎯 Ser etter: selvinnsikt, læringsvilje, nysgjerrighet og trygghet
 
-* Fortell om en situasjon der du oppdaget at du ikke var god nok – hva gjorde du da og hvorfor?
-* Hvordan reagerer du når du får kritikk du er uenig i?
+* ~~Fortell om en situasjon der du oppdaget at du ikke var god nok – hva gjorde du da og hvorfor?~~
+* ~~Hvordan reagerer du når du får kritikk du er uenig i?~~
 * Hva er det viktigste du har lært det siste året, og hvordan har det endret måten du jobber på?
-* Når får du mest utbytte av feedback – og hvordan bruker du den?
-* Fortell om en gang noe gikk galt i samarbeid med andre – hva tok du ansvar for?
-* Beskriv en feil du har gjort som faktisk gjorde deg bedre. Hva lærte du og hva endret du?
+* ~~Når får du mest utbytte av feedback – og hvordan bruker du den?~~
+* ~~Fortell om en gang noe gikk galt i samarbeid med andre – hva tok du ansvar for?~~
+* ~~Beskriv en feil du har gjort som faktisk gjorde deg bedre. Hva lærte du og hva endret du?~~
 * På hvilken måte er du nysgjerrig og hvordan realiserer du nysgjerrigheten din?
 * Hvordan ser du en problemstilling fra flere ulike perspektiver?
 
