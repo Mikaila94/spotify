@@ -45,7 +45,7 @@ Empty lyrics remain a successful `[]`. A missing song is `404`. Invalid ids are 
 * Playback is not blocked on lyrics.
 * Rapid track changes ignore stale lyrics responses.
 * Catalog still owns lyric content; playback still owns highlighting and seek.
-* The list vs detail split is an explicit, interview-ready contract.
+* The list vs detail split is an explicit contract.
 
 ### Negative
 

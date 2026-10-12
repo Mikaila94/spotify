@@ -15,7 +15,7 @@ The engineering goal is to use one real product as a learning vehicle for full-s
 * The project is maintained as a side project by one developer.
 * Features should ship incrementally and remain easy to understand.
 * Current traffic and team size do not justify independently deployed services.
-* Architecture should support learning and credible interview discussion without introducing speculative production complexity.
+* Architecture should support learning and credible engineering discussion without introducing speculative production complexity.
 * Audio playback runs in the browser and must remain responsive across route changes.
 
 ## Quality attributes

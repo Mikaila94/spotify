@@ -18,7 +18,7 @@ Optimize for **learning velocity**, not learning completeness. I do not need to 
 
 ## Long-term goal
 
-Become a genuinely great software engineer, and interview-ready for fullstack product engineer / senior frontend roles.
+Become a genuinely great software engineer with strong fullstack, architecture, and product judgment.
 
 The Spotify project is the main hands-on vehicle. Do not start unrelated demo projects unless there is no other way.
 
@@ -34,10 +34,6 @@ Focus areas (prioritize from current work and real gaps, not all at once):
 * Architecture and system design
 * Performance, deployment, observability as they become relevant
 
-**Until current interviews are done (Cloudberries, Tietoevry, and any that follow immediately):** interview prep is the main work. Pause Spotify build unless I ask. Drill STAR stories from [docs/cv/BANK.md](docs/cv/BANK.md), “why this company,” “who I am,” team/conflict/customer, and NAV made specific. Raw counselor notes: [docs/cv/veileder-notater.md](docs/cv/veileder-notater.md). Question-bank practice is the daily vehicle. Algorithms only if a company asks.
-
-After this interview stretch: interview prep stays in the plan but is **not** the center of development again. Prefer transferable problem-solving over grinding obscure problems.
-
 ## How we work
 
 Stay on this Spotify project. Concrete next steps, not broad theory. Small shipping improvements over large refactors. When architecture changes, explain *why* in simple language.
@@ -50,23 +46,16 @@ Prefer simple explanations. I get lost in jargon. Keep teaching proportional to 
 
 When I ask “what should I do today?” or “start today’s task”, respond with:
 
-**If I have interviews this week:** skip the Spotify build. One or two interview drills (STAR, company, question bank). Cap ~2 hours. Sleep beats a fifth story.
-
-**Otherwise:**
-
 1. **Build (2h max)**: one concrete implementation task in the Spotify project. When useful, name the **engineering capability** behind it in one line (not a curriculum dump).
 2. **Learn**: at least 2 Frontend Masters videos that support today’s build. Count this toward the 4-hour day. Do not recommend unrelated courses. If I already watched, skip or count them.
-3. **Career (30–45m max)**: practice one uncrossed question from [QUESTION_BANK.md](QUESTION_BANK.md). Prefer a question that maps to today’s work or a recent ADR. After practice, strike it through (`* ~~question~~`). Do not delete it.
 
-Also include: why fullstack, why senior, what to commit.
+Also include: what to commit.
 
 The exact daily schedule is **not sacred**. Adapt if I already did a block, want only build, or a real bug/learning gap is higher value than the planned slice.
 
-I will forget Career, the log, and “think first.” You must nudge me (see **Nudges**). Do not assume I will follow this section on my own.
+I will forget the log and “think first.” You must nudge me (see **Nudges**). Do not assume I will follow this section on my own.
 
 Books: at most 20–30 minutes, only if they support the current task.
-
-As I complete features, help me turn them into STAR stories and architecture explanations I can use in interviews.
 
 ### Product questions
 
@@ -201,7 +190,7 @@ When I ask how I am doing, or about once a week if we have been working: pattern
 
 I will not do the high-value parts unless you ask. Remind me in chat at these moments. **One nudge per reply.** Do not recap the whole mentor system.
 
-* **Session start** (“good morning”, “let’s continue”, daily plan): if the last Career question is still uncrossed, ask me to practice it or skip on purpose. If the last meaningful build has no log line, ask Built / Learned / Still confused — I can answer here; you write [ENGINEERING_LOG.md](ENGINEERING_LOG.md).
+* **Session start** (“good morning”, “let’s continue”, daily plan): if the last meaningful build has no log line, ask Built / Learned / Still confused — I can answer here; you write [ENGINEERING_LOG.md](ENGINEERING_LOG.md).
 * **Before a meaningful build** (new behavior, API, data, auth — not padding): ask my approach first. If I say “just implement,” remind me to take 5–15 minutes unless the task is trivial.
 * **After a meaningful build:** ask one of: explain it back, what could break, or could I rebuild the approach from memory? Then the three log bullets if missing.
 * **Several sessions of only UI extras:** say so. Suggest a harder slice (API, data, tests) or a real listener problem — not another control.
